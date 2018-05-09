@@ -5,19 +5,8 @@
 ![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/屏幕快照%202018-05-09%2013.00.01.png)
 
 2.响应报文构成
-|  协议版本  |  状态码  |状态码描述短语
- `HTTP/1.1`  `200`    `OK`
-|响应首部
-```
-|  Date: Tue, 10 Iul 2018 11:12:20 GMT
-| Content -Length: 362
-| Content -Type: text/html 
-```
-|响应主体
-```
- <html> 
- 、、、、、、、、
-```              
+![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/响应报文.png)
+
 3.HTTP 无状态协议，为此引入了Cookie
 
 4.HTTP方法
