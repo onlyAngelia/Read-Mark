@@ -1,19 +1,8 @@
 图解HTTP read mark
 
 1.请求报文构成
-|   方法 |   URI       —  |协议版本
-`post ` `/form/entry` ` HTTP/1.1`
-|请求首部
-
-```
-Host:hackr.jp
-Connection:keep -alive
-Content -Type: application/x-www-form-urlencoded
-Content -Length:16
-```
-
- |内容实体
-`name = ueno&age=18`
+   
+![](./_image/屏幕快照 2018-05-09 13.00.01.png)
 
 2.响应报文构成
 |  协议版本  |  状态码  |状态码描述短语
@@ -30,8 +19,13 @@ Content -Length:16
  、、、、、、、、
 ```              
 3.HTTP 无状态协议，为此引入了Cookie
+
 4.HTTP方法
-GET：                                                                                         
+GET： 
+POST:
+PUT:
+DELETE:
+
 
 
 
