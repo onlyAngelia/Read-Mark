@@ -1,20 +1,22 @@
 图解HTTP read mark
 
 1.请求报文构成
-   |   方法     ——               |   URI ——————                 |协议版本
+|   方法 |   URI       —  |协议版本
 `post ` `/form/entry` ` HTTP/1.1`
 |请求首部
+
 ```
 Host:hackr.jp
 Connection:keep -alive
 Content -Type: application/x-www-form-urlencoded
 Content -Length:16
 ```
+
  |内容实体
 `name = ueno&age=18`
 
 2.响应报文构成
-   |  协议版本  |  状态码  |状态码描述短语
+|  协议版本  |  状态码  |状态码描述短语
  `HTTP/1.1`  `200`    `OK`
 |响应首部
 ```
