@@ -2,7 +2,7 @@
 
 1.请求报文构成
    
-![](./_image/屏幕快照 2018-05-09 13.00.01.png)
+![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/屏幕快照%202018-05-09%2013.00.01.png)
 
 2.响应报文构成
 |  协议版本  |  状态码  |状态码描述短语
