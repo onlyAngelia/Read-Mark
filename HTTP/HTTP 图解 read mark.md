@@ -20,6 +20,7 @@
 报文主题没有任何语义（可打开Postman这样的工具，会发现body体不让设置）;
 参数拼接在url中，明文传输;
 ![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/GET请求.png)
+
 ##POST:传送实体
 
 传送实体，根据报文主题对指定资源做出处理
@@ -63,8 +64,13 @@ HEAD请求与GET请求一样，不同的是返回只返回首部，不返回报�
 ![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/TRACE.png)
 追踪方法是首部字段Max-Forwards 填入数值，经过一次服务器时减1
 
-##CONNECT:隧道协议连接代理
+##CONNECT:与代理服务器通信时建立隧道
 
+隧道协议进行TCP通信；
+使用SSL、TLS 协议加密；
+
+方法格式为：
+CONNECT 代理服务器名：端口号  HTTP版本
 
 ##PATCH：更新资源 （HTTP/1.1之后增加）
 
