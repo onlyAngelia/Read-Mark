@@ -96,8 +96,13 @@ HTTP/2.0 持久连接；
 
 管线化基于持久连接，与持久连接不同的是，持久连接发送请求得到响应之后再发送下次HTTP请求，而管线化不用等待可以直接发送下一个请求。
 
-![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/keep-alive.png)
 HTTP持久连接如图
 
-![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/pipelining.png)
+![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/keep-alive.png)
+
+
 管线化如图
+
+![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/pipelining.png)
+
+
