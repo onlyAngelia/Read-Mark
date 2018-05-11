@@ -1,16 +1,46 @@
 图解HTTP read mark
 
-#1.请求报文构成
+#一.请求报文构成
 
 ![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/请求报文.png)
 
-#2.响应报文构成
-![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/响应报文.png)        
+客户端的HTTP报文叫做请求报文
+
+请求报文首部包含：
+
+1.请求行：用户请求的方法，请求URI 和HTTP版本号。如图中所示POST /form/entry  HTTP/1.1
+
+2.首部报文：请求的各种条件和属性
+
+3.其它：RFC里未定义的首部（如Cookie）
+
+
+#二.响应报文构成
+![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/响应报文.png)     
+
+服务器端的HTTP报文叫做响应报文
+
+响应报文首部包含：
+
+1.状态行 ：包含HTTP 版本号 、响应结果状态码 、原因短语。如图中所示HTTP/1.1 200 OK
+
+2.首部报文： 响应的各种条件和属性
+
+3.其它： RFC里未定义的首部（如Cookie）
+
 HTTP1.0/1.1 报文面向文本  所以才会有我们熟悉的XML、json、txt等传输
 
-#3.HTTP 无状态协议，为此引入了Cookie
+#三.HTTP 无状态协议，为此引入了Cookie
+HTTP是无状态协议，不会对之前的请求做状态记录。同样的用户请求在每次请求时会重新登录或跳转。
+Cookie是在请求和响应报文中写入Cookie信息控制客户端状态。
 
-#4.HTTP方法
+客户端第一次请求的响应报文中首部会返回字段Set-Cookie，客户端根据该字段信息存储；
+
+Cookie存储在客户端，服务器不存储Cookie；
+
+Cookie信息因保存在客户端，所以更换服务器时Cookie信息会失效。
+
+#四.HTTP方法
 
 ##GET： 获取资源
 
@@ -24,7 +54,7 @@ HTTP1.0/1.1 报文面向文本  所以才会有我们熟悉的XML、json、txt�
 
 ##POST:传送实体
 
-传送实体，根据报文主题对指定资源做出处理；
+传送实体，根据报文主体对指定资源做出处理；
 不安全、不幂等；
 不可缓存（大部分情况下）；
 通过header请求,明文传输；
@@ -81,20 +111,24 @@ CONNECT 代理服务器名：端口号  HTTP版本
 更新服务器部分资源；
 资源不存在，会创建新资源；
 
-#5.HTTP持久连接
+#五.HTTP持久连接
 
 HTTP每次请求之后断开TCP连接，下次连接重新进行TCP握手。
 为减少每次TCP连接建立和断开而带来的通信量开销，提出了HTTP keep=alive 即轮询机制。
 若任一端没有明确提出断开连接，则保持TCP连接状态。
 
 
-HTTP/1.0 之前默认没有持久连接；
-HTTP/1.1 连接默认都是持久连接
+HTTP/1.0 之前没有持久连接；
+
+HTTP/1.1 连接默认是持久连接；
+
 HTTP/2.0 持久连接；
 
 ##管线化（pipelining）
 
 管线化基于持久连接，与持久连接不同的是，持久连接发送请求得到响应之后再发送下次HTTP请求，而管线化不用等待可以直接发送下一个请求。
+
+
 
 HTTP持久连接如图
 
@@ -104,5 +138,83 @@ HTTP持久连接如图
 管线化如图
 
 ![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/pipelining.png)
+
+#六.HTTP传输及返回
+
+1.报文&实体
+
+报文：HTTP通信基本单位，8位组字节流组成
+
+实体：请求或响应的有效载体，由实体首部和实体主体组成
+
+两者在一般情况下会保持一致，但若在传输中经过了编码操作时，会出现报文不等于实体。常用的编码有
+内容编码：一般会将内容进行压缩
+
+分块传输编码：将实体分成多个部分。每一块会用十六进制标记块的大小，而实体主体的最后一块会用“0（CR+LF）”标记
+
+2.范围请求：获取部分范围，之情范围发送Range Request
+
+3.多种对象集合：包含文字、图片、音视频等
+
+multipart/form-data
+
+multipart/byteranges
+
+4.内容协商机制：客户端和服务端就响应资源进行协商，返回最合适的内容
+
+example：web页面默认为英文则返回英文数据，若默认为中文则返回中文数据
+
+技术有以下三种类型
+服务器驱动协商：由服务器进行内容协商
+
+客户端驱动协商：由客户端进行内容协商
+
+透明协商：服务器和客户端结合协商
+
+5.状态码详解
+
+状态码类型：
+
+
+1XX   Informational (信息性状态码)  接收的请求正在处理
+
+2XX   Success（成功状态码） 请求正常处理完毕
+
+3XX   Redirection（重定向状态码） 需要进行附加操作以完成请求
+
+4XX  Client Error（客户端错误状态码） 服务器无法处理请求
+
+5XX  Server Error （服务器错误状态码） 服务器处理请求出错
+
+常用的状态码：
+
+200   OK    客户端发送的请求在服务器端正常处理
+
+204    No Content   服务器处理请求成功，但无资源返回
+
+206    Partial Content   客户端进行范围请求，服务器成功相应
+
+301    Moved Permanently   永久性重定向，服务器资源已更新，客户端需重新保存
+
+302    Found  临时性重定向   服务器资源已更新，但有可能会改回，返回对应的URI
+
+303   See Other  对应资源存在另一个URI，务必使用GET方法定向获取请求资源
+
+304   Not Modified  客户端发送的请求附带条件，服务器找到资源但未符合条件
+
+307   Temprary Redirect 临时重定向  与302相比不会将POST变GET，但每种浏览器会出现不同的情况
+
+400 Bad Request   请求报文中存在语法错误
+
+401 Unauthorized  需要有HTTP认证，若已经发送过请求表示认证失败
+
+403 Forbiddern  请求资源的访问被服务器拒绝
+
+404 Not Found  服务器上没有请求的资源
+
+500  Internal Server Error 服务器在执行请求时发生错误
+
+503  Service Unavaliable  服务站处于超负荷状态或停机 ，无法处理此次请求
+
 
 
