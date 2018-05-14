@@ -10,8 +10,13 @@
 
     1.请求行：用户请求的方法，请求URI 和HTTP版本号。如图中所示POST /form/entry  HTTP/1.1
 
-    2.首部报文：请求的各种条件和属性
-
+    2.首部字段：请求的各种条件和属性
+       首部字段包含以下信息：
+       请求首部字段（Request Header Fields）：
+       通用首部字段（General Header Fields）：请求报文和响应报文双方都会使用的首部
+       （1）
+       实体首部字段 (Entity Header Fields) ：
+       
     3.其它：RFC里未定义的首部（如Cookie）
 
 
@@ -24,8 +29,12 @@
 
     1.状态行 ：包含HTTP 版本号 、响应结果状态码 、原因短语。如图中所示HTTP/1.1 200 OK
 
-    2.首部报文： 响应的各种条件和属性
-
+    2.首部字段： 响应的各种条件和属性
+    
+    响应首部字段 (Response Header Fields):
+    通用首部字段（General Header Fields）：
+    实体首部字段 (Entity Header Fields) ：
+    
     3.其它： RFC里未定义的首部（如Cookie）
 
 HTTP1.0/1.1 报文面向文本  所以才会有我们熟悉的XML、json、txt等传输
@@ -34,11 +43,8 @@ HTTP1.0/1.1 报文面向文本  所以才会有我们熟悉的XML、json、txt�
 
     HTTP是无状态协议，不会对之前的请求做状态记录。同样的用户请求在每次请求时会重新登录或跳转。
     Cookie是在请求和响应报文中写入Cookie信息控制客户端状态。
-
     客户端第一次请求的响应报文中首部会返回字段Set-Cookie，客户端根据该字段信息存储；
-
     Cookie存储在客户端，服务器不存储Cookie；
-
     Cookie信息因保存在客户端，所以更换服务器时Cookie信息会失效。
 
 #四.HTTP方法
@@ -76,9 +82,7 @@ HTTP1.0/1.1 报文面向文本  所以才会有我们熟悉的XML、json、txt�
 ##DELETE:删除文件
 
     不安全、幂等；
-
     ##HEAD:获取指定资源，但不返回报文主体，只用于确认URI的有效性以及资源更新
-
     安全、幂等；
 ![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/HEAD请求.png)
       
@@ -87,7 +91,6 @@ HTTP1.0/1.1 报文面向文本  所以才会有我们熟悉的XML、json、txt�
 ##OPTIONS:询问支持方法
 
     向服务器查询请求URI指定资源支持的方法；
-
     安全、幂等;
 
 ![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/OPTIONS.png)
@@ -113,9 +116,7 @@ HTTP1.0/1.1 报文面向文本  所以才会有我们熟悉的XML、json、txt�
 ##PATCH：更新资源 （HTTP/1.1之后增加）
 
     不安全、不幂等；
-
     更新服务器部分资源；
-    
     资源不存在，会创建新资源；
 
 #五.HTTP持久连接
@@ -126,15 +127,12 @@ HTTP1.0/1.1 报文面向文本  所以才会有我们熟悉的XML、json、txt�
 
 
     HTTP/1.0 之前没有持久连接；
-
     HTTP/1.1 连接默认是持久连接；
-
     HTTP/2.0 持久连接；
 
 ##管线化（pipelining）
 
     管线化基于持久连接，与持久连接不同的是，持久连接发送请求得到响应之后再发送下次HTTP请求，而管线化不用等待可以直接发送下一个请求。
-
 
 
 HTTP持久连接如图
