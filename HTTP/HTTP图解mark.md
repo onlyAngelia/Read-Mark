@@ -14,7 +14,15 @@
        首部字段包含以下信息：
        请求首部字段（Request Header Fields）：
        通用首部字段（General Header Fields）：请求报文和响应报文双方都会使用的首部
-       （1）
+       （1）Cache-Control：控制缓存行为
+        (2) Connection：管理持久连接，控制不再转发给代理的首部字段 
+       （3）Date：创建HTTP报文的日期和时间
+        (4）Pragma:只用在客户端，为了1.1版本之前的协议向后兼容
+       （5）Trailer:事先说明在报文主体后记录了哪些首部字段，可应用于类似分段传输时
+        (6) Transfer-Encoding：规定传输报文主体时采用的编码格式 HTTP1.1的传输编码仅对分块传输编码有效
+        (7) Upgrade：用于检测HTTP协议以及其它协议是否可使用更高版本的协议进行通信
+        (8) Via：用于追踪报文的转发，可避免请求回环的发生，通常与Trace关联使用
+        (9) Warning:告知用户一些与缓存相关的问题警告
        实体首部字段 (Entity Header Fields) ：
        
     3.其它：RFC里未定义的首部（如Cookie）
@@ -33,6 +41,14 @@
     
     响应首部字段 (Response Header Fields):
     通用首部字段（General Header Fields）：
+    （1）Cache-Control：控制缓存行为
+     (2) Connection：管理持久连接，控制不再转发给代理的首部字段 
+    （3）Date：创建HTTP报文的日期和时间
+    （4）Trailer:事先说明在报文主体后记录了哪些首部字段，可应用于类似分段传输时
+     (5) Transfer-Encoding：规定传输报文主体时采用的编码格式 HTTP1.1的传输编码仅对分块传输编码有效
+     (6) Upgrade：用于检测HTTP协议以及其它协议是否可使用更高版本的协议进行通信
+     (7) Via：用于追踪报文的转发，可避免请求回环的发生，通常与Trace关联使用
+     (8) Warning:告知用户一些与缓存相关的问题警告
     实体首部字段 (Entity Header Fields) ：
     
     3.其它： RFC里未定义的首部（如Cookie）
@@ -263,3 +279,52 @@ HTTP持久连接如图
        优点：减少对资源服务器的访问，节省通信流量和通信时间。
        期限：受服务器更新和客户端请求条件限制，会向服务器确认资源的有效性，若失效则重新从资源服务器上获取"新"资源
        客户端缓存：临时网络文件，若资源有效，则不必请求，从本地磁盘读取
+
+#八、首部指令
+
+ -------
+  通用首部指令
+ -------
+
+ 1、Cache-Control 指令
+ 
+       缓存请求指令：
+        no-cache（强制验证无缓存，会向服务器确认资源有效期）；
+        no-store （不缓存请求或响应的任何内容）；
+        max-age = [秒]（响应最大Age值）；
+        max-stale （接收已过期的响应，若未指定参数值，则无论过多久，客户端都会接收响应，若指定了具体数值，则接收处于max-stale指定时间内的数据）；
+        min-fresh = [秒] (要求缓存服务器返回至少还未过指定时间的缓存资源);
+        no-transfor （代理不可更改媒体类型，防止缓存或代理压缩图片等类似操作）；
+        only-if-cached （仅从缓存服务器获取资源，缓存服务器若无响应，则返回状态码504）；
+        cache-extension （新指令标记，可扩展Cache-Control首部字段）；
+       缓存响应指令
+       public （可向任意方提供响应的缓存）；
+       private（仅向特定用户返回响应）；
+       no-cache （缓存前必须先确认其有效性）；
+       no-store（不缓存请求或响应的任何内容）；
+       no-transform（代理不可更改媒体类型，防止缓存或代理压缩图片等操作）；
+       must-revalidate（可缓存但必须再向源服务器进行确认）；
+       proxy-revalidate（要求中间缓存服务器对缓存的响应有效性再进行确认）；
+       max-age = [秒] （响应的最大Age值）；
+       s-maxage= [秒] （公共缓存服务器想用的最大Age值，适用于多位用户使用公共缓存代理服务器）；
+       cache-extension （新指令标记，可扩展Cache-Control首部字段）；
+2、Connection
+       
+       close：关闭持久连接
+       Keep - Alive：保持长久连接
+       其它需要代理服务忽视的字段 
+       Connection：需要忽视字段
+3、Upgrade
+  
+      Upgrade首部字段产生作用的Upgrade对象仅限于客户端和邻接服务器之间，在使用字段Upgrade时需要额外指定Connection：Upgrade。而对于应用了该字段的请求，服务器可用101 Switching Protocols状态码作为响应返回。
+4、Warning
+       
+       Warning首部格式如下，最后日期时间部分可省略
+       warning：[警告码][警告的主机：端口号]"[警告内容]"([日期时间])
+    警告码以及警告说明如图：
+    
+    ![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/HTTP1.1警告码.png)
+
+------
+ 
+------
