@@ -1,22 +1,25 @@
 图解HTTP read mark
-------
-一、请求报文构成
+<link rel="stylesheet" href="http://yandex.st/highlightjs/6.2/styles/googlecode.min.css">
 
-二、响应报文构成
+<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+<script src="http://yandex.st/highlightjs/6.2/highlight.min.js"></script>
 
-三、HTTP 无状态协议
-
-四、HTTP方法
-
-五、HTTP持久连接
-
-六、HTTP传输及返回
-
-七 HTTP 与服务器
-
-八、首部指令
-
-------
+<script>hljs.initHighlightingOnLoad();</script>
+<script type="text/javascript">
+$(document).ready(function(){
+$("h2,h3,h4,h5,h6").each(function(i,item){
+var tag = $(item).get(0).localName;
+$(item).attr("id","wow"+i);
+$("#category").append('<a class="new'+tag+'" href="#wow'+i+'">'+$(this).text()+'</a></br>');
+$(".newh2").css("margin-left",0);
+$(".newh3").css("margin-left",20);
+$(".newh4").css("margin-left",40);
+$(".newh5").css("margin-left",60);
+$(".newh6").css("margin-left",80);
+});
+});
+</script>
+<div id="category"></div>
 
 #一.请求报文构成
 
