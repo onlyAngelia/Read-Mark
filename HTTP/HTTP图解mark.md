@@ -1,5 +1,9 @@
 图解HTTP read mark
 
+------
+#二.响应报文构成
+------
+
 #一.请求报文构成
 
 ![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/请求报文.png)
@@ -61,6 +65,8 @@
     2.首部字段： 响应的各种条件和属性
     
     响应首部字段 (Response Header Fields):
+    (1)Accept-Ranges:告知客户端是否能处理范围请求
+     
     通用首部字段（General Header Fields）：
     （1）Cache-Control：控制缓存行为
      (2) Connection：管理持久连接，控制不再转发给代理的首部字段 
@@ -70,6 +76,7 @@
      (6) Upgrade：用于检测HTTP协议以及其它协议是否可使用更高版本的协议进行通信
      (7) Via：用于追踪报文的转发，可避免请求回环的发生，通常与Trace关联使用
      (8) Warning:告知用户一些与缓存相关的问题警告
+     
     实体首部字段 (Entity Header Fields) ：
     
     3.其它： RFC里未定义的首部（如Cookie）
@@ -420,6 +427,7 @@ HTTP持久连接如图
           TE用来指定传输编码，另外可指定伴随trailer的分块传输编码方式。
           TE:trailers
 
-
+-------
+响应请求
 
           
