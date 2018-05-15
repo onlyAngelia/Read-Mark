@@ -57,10 +57,16 @@
        (9)Expires:将资源失效日期告知客户端
        (10)Last-Modified:指明资源最终修改的时间
        
-    3.其它：RFC里未定义的首部（如Cookie）
+    3.其它：RFC里未定义的首部
        为Cookie服务的首部字段
       (1)Set-Cookie：开始状态管理所使用的Cookie信息
-
+      (2)Cookie:告知服务器当客户端想获得HTTP状态管理支持时，会在请求中包含从服务器其接收的Cookie
+       其它首部字段
+      (1)X-Frame-Options:控制网站内容在其他Web网站的Frame标签内的显示问题
+      (2)X-XSS-Protection:针对跨站脚本攻击（XSS）的一种对策，用于控制浏览器XSS防护机制
+      (3)DNT:拒绝个人信息被收集
+      (4)P3P:使Web网站上的个人隐私变成一种仅供程序可理解的形式
+      
 #二.响应报文构成
 ![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/响应报文.png)     
 
@@ -485,4 +491,30 @@ HTTP持久连接如图
         path：限制指定Cookie的发送范围的文件目录
         domain：指定的域名可做到与结尾匹配一致
         secure：限制Web页面仅在HTTPS安全连接时可以发送Cookie
-        HttpOnly：
+        HttpOnly：使JavaScript脚本无法获得Cookie，主要目的是防止跨站脚本攻击
+
+-------
+其它首部字段
+1.X-Frame-Options
+
+        X-Frame-Options 属于HTTP响应首部，用于控制网站内容在其它Web网站的Frame标签内的显示问题。其主要目的是防止点击劫持攻击。
+        DENY：拒绝
+        SAMEORIGIN：仅同源域名下的页面匹配时许可
+
+2.X-XSS-Protection
+
+        X-XSS-Protection属于HTTP响应首部，用于控制浏览器XSS防护机制的开关
+        字段值
+        0：将XSS过滤设置成无效状态
+        1：将XSS过滤设置成有效状态
+    
+3.DNT
+
+        DNT属于HTTP请求首部，全称Do Not Track，拒绝个人信息被收集，表示拒绝被精装广告追踪的一种方法。
+        字段值
+        0：同意被追踪
+        1：拒绝被追踪
+4.P3P
+
+        P3P属于HTTP响应首部，利用P3P技术让Web上个人隐私变成一种仅供程序可理解的形式，达到保护用户隐私的目的。
+
