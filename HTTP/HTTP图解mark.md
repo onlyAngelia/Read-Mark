@@ -46,9 +46,20 @@
         (9) Warning:告知用户一些与缓存相关的问题警告
         
        实体首部字段 (Entity Header Fields) ：
+       (1)Allow:告知客户端能够支持的所有HTTP方法
+       (2)Content-Encoding:告知客户端服务器对实体的主体部分选用的内容编码方式
+       (3)Content-Language:告知客户端实体主体使用的自然语言
+       (4)Content-Length:表明了实体主体部分的大小（单位是字节）
+       (5)Content-Location:表示报文主体返回资源对应的URI
+       (6)Content-MD5:一串报文主体由MD5算法生成的值
+       (7)Content-Range:告知客户端作为响应返回的实体的哪个部分符合范围请求
+       (8)Content-Type:说明实体主体内对象的媒体类型
+       (9)Expires:将资源失效日期告知客户端
+       (10)Last-Modified:指明资源最终修改的时间
        
     3.其它：RFC里未定义的首部（如Cookie）
-
+       为Cookie服务的首部字段
+      (1)Set-Cookie：开始状态管理所使用的Cookie信息
 
 #二.响应报文构成
 ![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/响应报文.png)     
@@ -456,4 +467,22 @@ HTTP持久连接如图
 4.Vary
 
         Vary可对缓存进行控制，源服务器会向代理服务器传达关于本地缓存使用方法的命令。代理服务器接收到源服务器返回的包含Vary指定项的响应之后，若再进行缓存，则仅仅对请求中包含相同Vary指定首部字段的返回进行缓存。哪怕相同资源发起请求，若Vary指定的首部字段不同的话，也必须要从源服务器重新获取资源。
+-----
+实体首部字段指令
 
+1.Content-Location
+
+          Content-Location给出与报文主体部分对应的URI，当返回的页面内容与实际请求的对象不同时，首部字段Content-Location内会写明URI
+
+2.Content-MD5
+
+              Content-MD5字段值是对报文主体执行MD5算法获得的128位二进制数，再通过Base64编码后的结果。这样做的目的在于检验报文主体在传输过程中是否保持完整以及确认传输到达。
+-------
+为Cookie服务的字段指令
+1.Set-Cookie
+        
+        expires：指定浏览器可发送Cookie的有效期
+        path：限制指定Cookie的发送范围的文件目录
+        domain：指定的域名可做到与结尾匹配一致
+        secure：限制Web页面仅在HTTPS安全连接时可以发送Cookie
+        HttpOnly：
