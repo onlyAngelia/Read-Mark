@@ -13,8 +13,28 @@
     2.首部字段：请求的各种条件和属性
        首部字段包含以下信息：
        请求首部字段（Request Header Fields）：
+        (1)Accept:通知服务器客户端能够处理的媒体类型及优先级
+        (2)Accept-Charset:通知服务器用户代理支持的字符集以及字符集的相对优先顺序
+        (3)Accept-Encoding:告知服务器用户代理支持的内容编码以及优先级顺序
+        (4)Accept-Language:告知服务器用户代理能够处理的自然语言集
+        (5)Authorization: 告知服务器用户代理的认证信息
+        (6)Expect:告知服务器期望出现的某种特定行为
+        (7)Form:告知服务器使用用户代理的用户的电子邮件地址
+        (8)Host:告知服务器请求资源所处的互联网主机名和端口号
+        (9)IF-match:告知服务器匹配资源的实体比较（Etag）值
+        (10)If-Modified-Since:该字段指定日期时间后，资源发生了更新，则服务器接受请求
+        (11)If-None-Match:只有在该字段值与ETage值不一致时，可处理该请求
+        (12)If-Range:若该字段的ETag值或时间和请求资源服务器的ETag或时间一致，则作为范围请求处理，反之则返回全部资源
+        (13)If-Unmodified-Since:告知服务器在指定时间之后未发生更新才能处理请求
+        (14)Max-Forwards:十进制数字整数形式指定经过的服务器最大数目
+        (15)Proxy-Authorization:告知服务器认证所需要的信息，发生在客户端与代理之间
+        (16)Range:范围请求的资源范围
+        (17)Referer:告知服务器请求的原始资源的URI
+        (18)TE:告知服务器客户端能够处理响应的传输编码格式以及相对优先级，和Accept-Encoding类似，但用于传输编码格式
+        (19)User-Agent:用于传达浏览器的种类
+        
        通用首部字段（General Header Fields）：请求报文和响应报文双方都会使用的首部
-       （1）Cache-Control：控制缓存行为
+        (1) Cache-Control：控制缓存行为
         (2) Connection：管理持久连接，控制不再转发给代理的首部字段 
        （3）Date：创建HTTP报文的日期和时间
         (4）Pragma:只用在客户端，为了1.1版本之前的协议向后兼容
@@ -23,6 +43,7 @@
         (7) Upgrade：用于检测HTTP协议以及其它协议是否可使用更高版本的协议进行通信
         (8) Via：用于追踪报文的转发，可避免请求回环的发生，通常与Trace关联使用
         (9) Warning:告知用户一些与缓存相关的问题警告
+        
        实体首部字段 (Entity Header Fields) ：
        
     3.其它：RFC里未定义的首部（如Cookie）
@@ -281,7 +302,7 @@ HTTP持久连接如图
        期限：受服务器更新和客户端请求条件限制，会向服务器确认资源的有效性，若失效则重新从资源服务器上获取"新"资源
        客户端缓存：临时网络文件，若资源有效，则不必请求，从本地磁盘读取
 
-#八、首部指令
+#八、首部字段指令
 
  -------
   通用首部指令
@@ -309,15 +330,18 @@ HTTP持久连接如图
        max-age = [秒] （响应的最大Age值）；
        s-maxage= [秒] （公共缓存服务器想用的最大Age值，适用于多位用户使用公共缓存代理服务器）；
        cache-extension （新指令标记，可扩展Cache-Control首部字段）；
+       
 2、Connection
        
        close：关闭持久连接
        Keep - Alive：保持长久连接
        其它需要代理服务忽视的字段 
        Connection：需要忽视字段
+       
 3、Upgrade
   
       Upgrade首部字段产生作用的Upgrade对象仅限于客户端和邻接服务器之间，在使用字段Upgrade时需要额外指定Connection：Upgrade。而对于应用了该字段的请求，服务器可用101 Switching Protocols状态码作为响应返回。
+      
 4、Warning
        
        Warning首部格式如下，最后日期时间部分可省略
@@ -327,4 +351,75 @@ HTTP持久连接如图
     ![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/HTTP1.1警告码.png)
 
 ------
+ 请求首部字段指令
  
+1.Accept
+        
+         文本文件
+         text/html，text/plain,text/css ...
+         图片文件
+         image/jpeg,image/gif,image/png...
+         视频文件
+         video/mpeg,video/quicktime ...
+         应用程序使用的二进制文件
+         applicaion/octet-stream,application/zip...
+        
+        quality factor:质量数，权重
+        媒体类型的优先级，q=0~1（范围为0~1，可精确到小数点后三位）;
+2.Accept-Charset
+
+        可用来通知服务器用户代理支持的字符集以及相对优先顺序，与Accept一样可以通过设置权重q表示相对优先级
+3.Accept-Encoding
+   
+          .gzip
+          由文件压缩程序gzip生成的编码格式（RFC1952）采用Lempel-Ziv算法及32位循环校验
+          .compress
+          由UNIX文件压缩程序compress生成的编码格式，采用Lempel-Ziv-Welch算法
+          .deflate
+          组合使用zlib格式（RFC1950）及deflate压缩算法生成的编码格式
+          .identity
+          不执行压缩或不会变化的默认编码格式
+          *.通配符，代表任意格式编码
+4.Expect
+          
+        告知服务器希望出现的特定行为，若服务器无法理解客户端的期望，则返回状态码417
+           HTTP/1.1只定义该字段一个指令：100-continue
+
+5.Form
+     
+        告知服务器用户代理使用的电子邮件地址。使用目的是为了显示搜索引擎等用户代理的负责人的电子邮件联系方式。使用代理时，尽可能包含From首部字段，但因代理不同，通常将电子邮件地址记录在User-Agent 首部字段内
+           
+6.If-Match
+      
+       If-Match 告知拂去我匹配资源的实体标记值，服务器比较资源和IF-Match的ETag值，只有两者一致时才会执行请求。若不满足则返回412状态码
+       
+7.If-None-Match
+       
+       与IF-Match首部字段作用相反，当IF-None-Match字段值的实体标记与请求资源的Etage不一致时，告知服务器处理该请求，在GET或HEAD方法中使用该字段可获取最新的资源。
+       
+![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/IF-None-Match.png)
+       
+8.If-Modified-Since
+
+        If-Modified-Since 会告知服务器若该字段值早于资源的更新时间，则希望能处理该请求，而再指定时间之后，如果请求的资源没有更新过，则返回304 Not modified的响应，主要用来确认代理或客户端拥有的本地资源的有效性。
+
+9.If-Unomodified-Since
+
+        与If-Modified-Since字段相反，该字段告知服务器，请求的指定资源在字段值内指定的日期之后，未发生更新，才能处理请求。若在指定日期之后发生更新，则以状态码412作为响应返回
+             
+10.If-Range
+ 
+        If-Range 告知服务器若ETag值或时间匹配则作为范围请求，若不匹配，则返回全部资源。这样的好处是可以避免二次请求。若不使用If-Range则在不匹配的情况下，服务器返回状态码412 Precondition Failed，催促客户端再次发送请求。
+          
+11.Range
+
+        Range指定范围请求的资源范围，接收到附带Range首部字段请求的服务器，会在响应之后返回206的响应，无法处理该范围请求时，则返回状态码200 OK的响应以及全部资源
+        
+12.TE
+     
+          TE用来指定传输编码，另外可指定伴随trailer的分块传输编码方式。
+          TE:trailers
+
+
+
+          
