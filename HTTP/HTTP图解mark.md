@@ -541,7 +541,6 @@ HTTP持久连接如图
 
 3.HTTS安全通信机制
 
-       客户端： —>                                                            ：服务器端
-       
-       1->客户端发送报文开始SSL通信（SSL指定版本、加密组件所使用的加密算法及密钥长度）
+![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/HTTPS连接.png)
+    
           
