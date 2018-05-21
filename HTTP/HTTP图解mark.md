@@ -574,5 +574,14 @@ HTTP持久连接如图
             
 ![](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/_image/SSLCertificate.png)
 
-        3)双因素认证：
+        3)双因素认证：除认证证书之外还发送表单认证
+        4）SSL必要费用：认证机构购买客户端证书费用+服务器运营者保证搭建的认证机构安全运营所产生的费用
+
+
+#十：扩展协议SPDY
+   
+1.部分HTTP标准成为瓶颈
+
+        (1)一条连接只能发送一个请求
+        (2)只有客户端能发送请求并且不能接收除响应以外的指令
             
