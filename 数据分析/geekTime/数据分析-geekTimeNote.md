@@ -447,9 +447,9 @@ NameError: name 'message_inner' is not defined
 
 
 
-## Python基础简单应用**
+## **Python基础简单应用**
 
-###**1~99数字之和**
+###**1+3+5+7+…+99 的求和**
 
 第一种方案，直接运用系统sum函数
 
@@ -493,5 +493,38 @@ SyntaxError: invalid syntax
 >>> print ("1+3+5+7+…+99之和", total_number)
 ```
 
-###**斐波那切数列**
+###**斐波那切数列**Fibonacci series
 
+1，1，2，3，5，……..
+
+```python
+>>> total_max = input("斐波那切数列最后一位不大于？ 请输入：")
+斐波那切数列最后一位不大于？ 请输入  100
+>>> a, b = 0, 1
+>>> while b < int(total_max):
+	print (b)
+	a, b= b, a+b
+
+1
+1
+2
+3
+5
+8
+13
+21
+34
+55
+89
+>>> 
+```
+
+其中，a, b= b, a+b的计算方式为先计算右边表达式，然后同时赋值给左边，等价于
+
+n = b
+
+m = a+b
+
+a = n
+
+b = m
