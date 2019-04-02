@@ -10,7 +10,7 @@
 
 Python语言采用代码缩进和冒号的方式来区分代码之间的层次关系，所以代码缩进在Python中是一种语法，如果代码缩进不统一，会产生错误或者异常，相同层次的代码一定要采用相同层次的缩进。
 
-Python IDE：  PyCharm 、 Sublime Text 、 Vim、Eclipse + PyDev 、IDLE  
+Python IDE：  PyCharm(写爬虫) 、 Sublime Text 、 Vim、Eclipse + PyDev 、IDLE  、jupyter notebook+spyder3（数据分析主要IDE）
 
 若用IDLE 编译  一行代码一回车   
 
@@ -350,12 +350,148 @@ Python中使用lambda来创建匿名函数。
 
 ###**变量作用域**
 
-变量的作用域决定了在哪一部分可以访问哪个特定的变量名称
+变量的作用域决定了在哪一部分可以访问哪个特定的变量名称,Python的作用域一共有四种：
+
+.Local 局部作用域
+
+.Enclosing  闭包函数外的函数中
+
+.Global 全局作用域
+
+.Built -in  内置作用域
+
+查找规则是L->E->G->B
+
+ ```python
+g_count = 0  # 全局作用域
+def outer():
+    o_count = 1  # 闭包函数外的函数中
+    def inner():
+        i_count = 2  # 局部作用域
+ ```
+
+内置作用域是通过一个名为builtin的标准模块来实现的，但是这个变量自身并没有放入内置作用域内，所以必须导入该模块。
+
+```python
+>>> import builtins
+>>> dir(builtins)
+['ArithmeticError', 'AssertionError', 'AttributeError', 'BaseException', 'BlockingIOError', 'BrokenPipeError', 'BufferError', 'BytesWarning', 'ChildProcessError', 'ConnectionAbortedError', 'ConnectionError', 'ConnectionRefusedError', 'ConnectionResetError', 'DeprecationWarning', 'EOFError', 'Ellipsis', 'EnvironmentError', 'Exception', 'False', 'FileExistsError', 'FileNotFoundError', 'FloatingPointError', 'FutureWarning', 'GeneratorExit', 'IOError', 'ImportError', 'ImportWarning', 'IndentationError', 'IndexError', 'InterruptedError', 'IsADirectoryError', 'KeyError', 'KeyboardInterrupt', 'LookupError', 'MemoryError', 'ModuleNotFoundError', 'NameError', 'None', 'NotADirectoryError', 'NotImplemented', 'NotImplementedError', 'OSError', 'OverflowError', 'PendingDeprecationWarning', 'PermissionError', 'ProcessLookupError', 'RecursionError', 'ReferenceError', 'ResourceWarning', 'RuntimeError', 'RuntimeWarning', 'StopAsyncIteration', 'StopIteration', 'SyntaxError', 'SyntaxWarning', 'SystemError', 'SystemExit', 'TabError', 'TimeoutError', 'True', 'TypeError', 'UnboundLocalError', 'UnicodeDecodeError', 'UnicodeEncodeError', 'UnicodeError', 'UnicodeTranslateError', 'UnicodeWarning', 'UserWarning', 'ValueError', 'Warning', 'ZeroDivisionError', '_', '__build_class__', '__debug__', '__doc__', '__import__', '__loader__', '__name__', '__package__', '__spec__', 'abs', 'all', 'any', 'ascii', 'bin', 'bool', 'bytearray', 'bytes', 'callable', 'chr', 'classmethod', 'compile', 'complex', 'copyright', 'credits', 'delattr', 'dict', 'dir', 'divmod', 'enumerate', 'eval', 'exec', 'exit', 'filter', 'float', 'format', 'frozenset', 'getattr', 'globals', 'hasattr', 'hash', 'help', 'hex', 'id', 'input', 'int', 'isinstance', 'issubclass', 'iter', 'len', 'license', 'list', 'locals', 'map', 'max', 'memoryview', 'min', 'next', 'object', 'oct', 'open', 'ord', 'pow', 'print', 'property', 'quit', 'range', 'repr', 'reversed', 'round', 'set', 'setattr', 'slice', 'sorted', 'staticmethod', 'str', 'sum', 'super', 'tuple', 'type', 'vars', 'zip']
+>>> 
+```
+
+Python 中只有模块module、类class、以及函数(def、lambda)才会引入新的作用域。其它的代码块（如 if/elif/else/、try/except、for/while等）是不会引入新的作用域的
+
+```python
+>>> if True:
+	message = 'Come on, you can do it'
+
+	
+>>> message
+'Come on, you can do it'
+>>> 
+```
+
+如上，message变量定义在if语句块中，但外部还可以访问。若定义在函数中，则就是局部变量，外部无法访问。
+
+```python
+>>> def function_test():
+	message_inner = 'Come on, you can do it'
+
+	
+>>> message_inner
+Traceback (most recent call last):
+  File "<pyshell#53>", line 1, in <module>
+    message_inner
+NameError: name 'message_inner' is not defined
+>>> 
+```
 
 ### **全局变量和局部变量**
 
+定义在函数内部的变量拥有一个局部作用域，定义在函数外的拥有全局作用域。局部变量只能在其被声明的函数内部访问，而全局变量可以在整个程序范围内访问。调用函数时，所有在函数内声明的变量名称都将在被加入到作用域中。
+
 ###**global 和 nonlocal关键字**
 
-## **Python基础简单应用**
+当内部作用域想修改外部作用域的变量时，就要用到golbal和nonlocal关键字。
+
+```python
+>>> def fun1():
+	global num
+	print (num)
+	num = 23
+	print (num)
+
+	
+>>> fun1()
+2
+23
+```
+
+若需要修改嵌套作用域 (enclosing作用域，外层非全局作用域)中的变量则需要nonlocal关键字
+
+```python
+>>> def outer():
+	num = 10
+	def inner():
+		nonlocal num
+		num = 100
+		print (num)
+	inner()
+	print (num)
+
+	
+>>> outer()
+100
+100
+```
+
+
+
+## Python基础简单应用**
+
+###**1~99数字之和**
+
+第一种方案，直接运用系统sum函数
+
+```python
+>>> print(sum(range(1,100,2)))
+2500
+```
+
+第二种方案，for循环
+
+```python
+>>> total_number = 0
+>>> for number in range(1,100,2)
+SyntaxError: invalid syntax
+>>> for number in range(1,100,2):
+	total_number += number
+
+>>> print ("1+3+5+7+…+99之和", total_number)
+1+3+5+7+…+99之和 2500
+```
+
+第三种方案，while循环
+
+```python
+>>> while number < 100:
+	total_number += number
+	number += 2
+
+>>> print ("1+3+5+7+…+99之和", total_number)
+1+3+5+7+…+99之和 2500
+```
+
+优化方案：
+
+```python
+>>> while length < 25:
+	total_number += (number + (100 - number))
+	number += 2
+	length += 1
+
+>>> print ("1+3+5+7+…+99之和", total_number)
+```
 
 ###**斐波那切数列**
+
