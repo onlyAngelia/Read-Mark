@@ -267,7 +267,7 @@ printinfo( age=50, name="runoob" )
 年龄: 35
 ```
 
-**.不定长参数**： 一个函数要处理比声明时更多的参数，这些参数叫不定长参数，不定长参数声明时不会命名，加了*的参数会以元组的形式导入，存放所有未命名参数
+**.不定长参数**： 一个函数要处理比声明时更多的参数，这些参数叫不定长参数，不定长参数声明时不会命名，加了*的参数会以元组的形式导入，存放所有未命名参数，如果函数调用时没有指定参数，参数就是一个空元组。
 
 ```python
 >>> def printinfo( arg1, *vartuple ):
@@ -288,8 +288,74 @@ printinfo( age=50, name="runoob" )
 >>> 
 ```
 
+还有一种不定长参数是加了两个**，该类型参数会以字典的形式导入。
+
+```python
+>>> def printinfo( arg1, **vardict ):
+	"打印任何输入的参数"
+	print ("输出：")
+	print (arg1)
+	print (vardict)
+	return
+
+>>> printinfo(1, a = 2, b = 3)
+输出：
+1
+{'a': 2, 'b': 3}
+```
+
+声明函数时，参数中星号*可以单独出现，
+
+```python
+def f(a,b,*,c):
+    return a+b+c
+```
+
+如果单独出现星号*后的参数必须用关键字传入,否则会报异常
+
+```python
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: f() takes 2 positional arguments but 3 were given
+```
+
+正确调用如下：
+
+```python
+>>> def f(a,b,*,c ):
+	return a + b + c
+
+>>> f(1,2,c = 3)
+6
+>>> 
+```
+
 ###**匿名函数**
+
+Python中使用lambda来创建匿名函数。
+
+.lambda只是一个表达式，函数体比def简单很多
+
+.lambda的主体是一个表达式，而不是一个代码块。仅仅能在lambda表达式中封装有限的逻辑进去
+
+.lambda函数拥有自己的命名空间，且不能访问自己参数列表之外或全局命名空间里的参数
+
+.虽然lambda函数看起来只能写一行，却不等同于C或C++的内联函数，后者的目的是调用小函数时不占用内存，从而增加运行效率
+
+```
+>>> sum = lambda arg1, arg2: arg1 + arg2
+>>> print ("两数相加后的值为： ", sum( 10, 20))
+两数相加后的值为：  30
+```
+
+###**变量作用域**
+
+变量的作用域决定了在哪一部分可以访问哪个特定的变量名称
 
 ### **全局变量和局部变量**
 
 ###**global 和 nonlocal关键字**
+
+## **Python基础简单应用**
+
+###**斐波那切数列**
