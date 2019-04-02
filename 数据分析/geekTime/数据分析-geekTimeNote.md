@@ -1,1 +1,295 @@
+[TOC]
+
+#数据挖掘知识清单
+
 ![数据挖掘知识清单](数据挖掘知识清单.jpg)
+
+
+
+#数据分析之Python基础
+
+Python语言采用代码缩进和冒号的方式来区分代码之间的层次关系，所以代码缩进在Python中是一种语法，如果代码缩进不统一，会产生错误或者异常，相同层次的代码一定要采用相同层次的缩进。
+
+Python IDE：  PyCharm 、 Sublime Text 、 Vim、Eclipse + PyDev 、IDLE  
+
+若用IDLE 编译  一行代码一回车   
+
+**基本语法**： 输入输出 ： input (Python 2.7  用 raw_input)、 print (与其它语言一样%s 代表字符串，%d代表整数)
+
+**注释**： 注释在Python中使用#，如果注释中有中文，一般会在代码前添加#— coding：utf-8 -  
+
+如果是多行注释，使用三个单引号，或者三个双引号。
+
+**引用模块** ：导入一个模块  import model_name ,导入多个模块  import model_name, anthor_model,导入包中指定模块 from package_name import moudule_name;导入包中所有模块 from package_name import *
+
+##**循环控制**
+
+###**if … else ...**
+
+```python
+      if score>= 90:
+      print 'Excellent'
+else:
+       if score < 60:
+           print 'Fail'
+       else:
+           print 'Good Job'
+```
+
+###**for … in** 
+
+```python
+sum = 0
+for number in range(11):
+    sum = sum + number
+print sum
+```
+
+若规定循环次数，可以使用range函数，在for循环里比较常见，range(11)代表从0到10，不包括11，也相当于range(0，11)，range里面还可以增加步长，比如range(1，11，2)代表的是[1，3，5，7，9]
+
+###**while循环**
+
+```python
+sum = 0
+number = 1
+while number < 11:
+       sum = sum + number
+       number = number + 1
+print sum
+```
+
+while循环对于变量计算方式更加灵活。因此while循环适合循环次数不确定的循环，而for 循环的条件相对确定，适合固定次数的循环。
+
+**多重赋值**
+
+```python
+a = b = c = 100
+```
+
+##**标准数据类型**
+
+Python中目前定义了五种标准数据类型，用于存储各种数据类型
+
+```python
+.Numbers (数字)
+.String ()
+.List
+.Tuple
+.Dictionary
+```
+
+此外还有集合Set 标准数据类型，同Dictionary类型
+
+###**列表 List**
+
+```python
+lists = ['a','b','c']
+lists.append('d')
+print lists
+print len(lists)
+lists.insert(0,'mm')
+lists.pop()
+print (len(lists)) //Python3.0 语法
+del lists[0]
+print (max(lists))
+print (lists.count('a'))
+
+```
+
+列表是Python中的常用数据结构，append()在尾部添加元素，insert()在列表中插入元素，使用pop()删除尾部的元素，使用len()计算列表长度，使用del删除列表指定位置的元素，使用max()找出列表中最大的元素，使用count()计算某个目标值在数组中出现的次数
+
+###**元组(Tuple)**
+
+```python
+>>> tupe = ('tupeA','tupeB')
+>>> tupe_first = "a","b","c"
+>>> tupe_second = (50,)
+>>> print (tupe[0])
+tupeA
+>>> tupe_third = tupe + tupe_first
+>>> print (tupe_third)
+('tupeA', 'tupeB', 'a', 'b', 'c')
+>>> del tupe_third
+>>> print (len(tupe))
+2
+>>> 
+```
+
+Python的元组与列表类似，但是元组一旦创建就不能修改，不过我们可以通过两个元组拼接的形式进行修改，元组不能删除某个指定元素，但用del()函数可以直接将整个元组删除；元组中只包含一个元素时，需要在后面添加逗号，否则最后一个）会当运算符计算;len()函数会返回元组的个数。
+
+###**字典(Dictonary)**
+
+字典是key:value的容器模型，键值必须唯一，但值则不必唯一
+
+```python
+>>> dictionary = {'Alice': 17,'Beth': 19}
+>>> dictionary = {'Name': 'Alice', 'Age': 17, 'Class': 'First'}
+>>> print (dictionary['Name'])
+Alice
+>>> dictionary['Age'] = 18
+>>> del dictionary['Class']
+>>> dictionary.clear
+<built-in method clear of dict object at 0x10d85ebd0>
+>>> del dictionary
+>>> dictionary = {'Name': 'Beth', 'Age': 17, 'Class': 'First','Name': 'Alice'}
+>>> print (len(dictionary))
+3
+>>> str(dictionary)
+"{'Name': 'Alice', 'Age': 17, 'Class': 'First'}"
+```
+
+访问字典里的值直接通过访问key的形式，修改字典中的元素也是同样用直接访问key的形式进行重新赋值；
+
+del dictionary['key'] 是删除字典中key：value键值对  clear()函数是清空字典， del dictionary 是直接将整个字典删除；因字典中不允许同一个键出现两次，所以后赋值的会替换掉前面的，键必须不可变，所以用数字，字符串或元组充当，而不能用列表；len()函数计算字典中元素个数，即建的总数。str()函数是以可打印字符串表示输出字典。
+
+###**集合(Set)**
+
+集合与列表存储结构相似，不同的是集合是无序的且不重复。
+
+```python
+>>> basket = {'apple','orange','apple','pear','orange','banana'}
+>>> print (basket)
+{'pear', 'apple', 'banana', 'orange'}
+>>> 'orange' in basket
+True
+>>> 'pich' in basket
+False
+>>> a_set = set('abracadabra')
+>>> a_set
+{'a', 'd', 'c', 'b', 'r'}
+>>> b_set = set('alacazam')
+>>> b_set
+{'m', 'c', 'z', 'l', 'a'}
+>>> a_set - b_set  #集合a中包含而集合b中不包含的元素
+{'d', 'r', 'b'}
+>>> a_set | b_set #集合a或集合b中包含的所有元素
+{'m', 'd', 'c', 'z', 'l', 'a', 'b', 'r'}
+>>> a_set & b_set #集合a和集合b中共同包含了的元素
+{'c', 'a'}
+>>> a_set ^ b_set #不同时包含于a和b的元素
+{'m', 'z', 'l', 'd', 'b', 'r'}
+>>> s_set = {x for x in 'abracadabra' if x not in 'abc'}
+>>> s_set
+{'d', 'r'}
+>>> a_set.add(x)
+Traceback (most recent call last):
+  File "<pyshell#99>", line 1, in <module>
+    a_set.add(x)
+NameError: name 'x' is not defined
+>>> a_set.add('x')
+>>> a_set.update('s')
+>>> a_set.remove('s')
+>>> a_set.discard('s')
+>>> a_set.pop
+<built-in method pop of set object at 0x10d906668>
+>>> len(a_set)
+6
+>>> 'a' in a_set
+True
+>>> a_set.clear()
+>>> a_set.isdisjoint(b_set)
+True
+>>> a_set.issubset(b_set)
+True
+>>> a_set.issuperset(b_set)
+False
+>>> 
+```
+
+空集合的创建不能用{},必须用set()，因为{}是创建空字典。 与字典相同 可直接通过'x' in 结合的形式判断集合中是否有该元素，若有则返回True，若没有该元素，则返回False；两个集合可通过 '-' 、'|'、'&'、'^'四个运算符求与或非等操作；add()可以向集合中添加元素，另外一种添加方式是update()，该方式可以将列表、字典等元素添加到集合中；remove()可以移除集合中的元素，另一种移除方式是discard(),此种方式在集合中没有要移除的元素的时候不会报错；pop()是随机移除，len()是求集合长度；clear()是清空集合；isdisjoint()是判断集合中是否包含相同的元素，如果没有返回True，否则返回False；issubset()判断指定集合是否为该方法参数集合的子集合，issuperset()判断该方法的参数集合是否为指定集合的子集。
+
+##**函数**
+
+Python中函数分为内建函数和自定义函数，自定义函数以 def关键字开头，后接函数标识符名称和圆括号。
+
+任何传入参数和自变量必须放在圆括号中间，圆括号之间可以用于定义参数。
+
+函数的第一行语句可以选择性地使用文档字符串-用于存放函数说明
+
+函数内容以冒号起始，并且缩进。
+
+return[表达式]结束函数，选择性德返回一个值给调用方，不带表达式的return相当于返回None
+
+```python
+>>> def area(width, height):
+	return width * height
+
+>>> print ("with =",w,"height =",h,"area =",area(w,h))
+with = 34 height = 25 area = 850
+```
+
+###**参数传递**
+
+Python中，类型属于对象，变量是没有类型的。
+
+####**可更改(mutable)与不可更(immutable)改对象**:
+
+在Python中，string，tuples和numbers是不可更改的对象，而list，dictionary等则是可以修改的对象
+
+**.不可变类型** ： 变量赋值a = 5后，再赋值 a = 10，这里实际是新生成一个int对象10，再让a指向它，而原来的5以及原来占用的内存都被废弃，相当于重新生成了a。
+
+**.可变类型** : 变量赋值la = [1,2,3,4]后再赋值 la[2] = 5 则是将 list la中的第三个元素更改，并没有改变list la的内存指向。
+
+####**参数类型**
+
+**.必需参数** :以正确的方式传入函数，调用时的数量必须和声明时一致
+
+**.关键字参数** ：使用关键字参数允许函数调用时参数的顺序与生命不一致，因为Python解释器能够用参数名称匹配参数值
+
+```python
+#可写函数说明
+def printinfo( name, age ):
+   "打印任何传入的字符串"
+   print ("名字: ", name)
+   print ("年龄: ", age)
+   return
+ 
+#调用printinfo函数
+printinfo( age=50, name="runoob" )
+```
+
+
+
+**.默认参数**  调用函数时，如果没有传递参数，则会使用默认参数
+
+```python
+>>> def printinfo(name, age = 35):
+	"打印任何传入的字符"
+	print ("名字:", name)
+	print ("年龄:", age)
+	return
+
+>>> printinfo( age = 50, name = "Joe")
+名字: Joe
+年龄: 50
+>>> printinfo( name = "Joe")
+名字: Joe
+年龄: 35
+```
+
+**.不定长参数**： 一个函数要处理比声明时更多的参数，这些参数叫不定长参数，不定长参数声明时不会命名，加了*的参数会以元组的形式导入，存放所有未命名参数
+
+```python
+>>> def printinfo( arg1, *vartuple ):
+   "打印任何传入的参数"
+   print ("输出: ")
+   print (arg1)
+   print (vartuple)
+   return
+
+>>> printinfo( 70, 60, 59)
+输出: 
+70
+(60, 59)
+>>> printinfo( 70)
+输出: 
+70
+()
+>>> 
+```
+
+###**匿名函数**
+
+### **全局变量和局部变量**
+
+###**global 和 nonlocal关键字**
