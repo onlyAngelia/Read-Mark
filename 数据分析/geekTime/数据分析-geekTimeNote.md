@@ -493,7 +493,7 @@ SyntaxError: invalid syntax
 >>> print ("1+3+5+7+…+99之和", total_number)
 ```
 
-###**斐波那切数列**Fibonacci series
+###**斐波那切数列Fibonacci series**
 
 1，1，2，3，5，……..
 
