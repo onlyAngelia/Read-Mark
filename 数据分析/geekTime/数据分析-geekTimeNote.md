@@ -2,7 +2,7 @@
 
 #数据挖掘知识清单
 
-![数据挖掘知识清单](数据挖掘知识清单.jpg)
+![数据挖掘知识清单](images/数据挖掘知识清单.jpg)
 
 
 
@@ -450,4 +450,221 @@ NameError: name 'message_inner' is not defined
 NumPy是Python中一个重要的第三方库，是Python中使用最多的第三方库，也是SciPy、Pandas 等数据科学的基础。NumPy所提供的数据结构是Python数据分析的基础。
 
 ##**NumPy对Python结构的优化**
+
+**.**列表List是用来存储数据的重要容器，虽然Python中隐藏了C指针的概念，但是List中存储的对象保存的依然是对象的指针，这造成了内存浪费和计算时间上的浪费。
+
+**.**Python本身的list的元素在系统内存中是分散的，而Numpy的数组存储是一个均匀连续的内存块，这在计算的过程中变量对内存地址进行查找，节省了资源。
+
+**.**一般的内存访问模式，缓存会直接把字节块从RAM加载到CPU寄存器中。因为NumPy是连续内存存储数组，所以NumPy直接利用CPU的矢量化指令计算，加载寄存器中的多个连续浮点数。
+
+**.**NumPy的矩阵计算可以采用多线程方式，充分利用多核CPU计算资源，很大程度上提升了计算效率。
+
+使用NumPy的一个提升内存和计算资源利用率的技巧是：**避免采用隐式拷贝，直接采用就地操作**。
+
+##**ndarray对象**
+
+ndarray是NumPy中的多维数组，在NumPy数组中，维数成为秩(rank),一维数组的秩为1，二维数组的秩为2，以此类推。在NumPy中，每一个线性的数组成为一个轴(axes)，秩描述的就是轴的数量。
+
+###**数组创建**
+
+```python
+>>> import numpy as np
+>>> a = np.array([1,2,3])
+>>> b = np.array([[1,2,3], [4,5,6], [7,8,9]])
+>>> b[1,1] = 10
+>>> print (a.shape)
+(3,)
+>>> print (b.shape)
+(3, 3)
+>>> print (a.dtype)
+int64
+>>> print (b)
+[[ 1  2  3]
+ [ 4 10  6]
+ [ 7  8  9]]
+```
+
+可以直接通过array()创建数组，如果是多重数组，可以先把元素嵌套，再把元素放到数组里赋值。
+
+可以通过shape属性获得数组的大小，通过dtype获得元素的属性，如果想要修改数组里的元素，可以直接赋值。
+
+###**结构数组**
+
+在NumPy中用dtype定义的结构类型，然后在定义数组的时候，用array中指定了结构数组的类型dtype = persontype，这样就可以自由使用自定义的persontype。当然NumPy中海油一些自带的数学运算，比如计算平均值使用np.mean
+
+```python
+>>> persontype = np.dtype({'names':['name','age','chinese','math','english'],'formats':['S32','i','i','i','f']})
+>>> peoples = np.array([('ZhangFei',32,75,100,90),('GuanYu',24,85,96,88.5),('ZhaoYun',28,85,92,96.5),('HuangZhong',29,65,85,100)], dtype=persontype)
+>>> ages = peoples[:]['age']
+>>> chineses = peoples[:]['chinese']
+>>> englishes = peoples[:]['english']
+>>> maths = peoples[:]['math']
+>>> print (np.mean(ages))
+28.25
+>>> print (np.mean(chineses))
+77.5
+>>> print (np.mean(maths))
+93.25
+>>> print (np.mean(englishes))
+93.75
+```
+
+##**ufunc运算**
+
+ufunc是universal function的缩写，能对数组中每个元素进行函数操作。NumPy中ufunc函数计算速度非常快，因为都是采用C语言实现的。
+
+### **连续数组的创建**
+
+```python
+
+>>> x1 = np.arange(1,11,2)
+>>> x2 = np.linspace(1,9,5)
+>>> 
+
+```
+
+arange()和linspace()作用一样，都是创建等差数组。arrange()类似内置函数range()，通过制定初始值、终值、步长来创建等差数列的一维数组，默认是不包括终值的。
+
+linspace是linear space的缩写，代表线性等分向量的含义。linspace()通过指定初始值、终值、元素个数来创建等差数列的一维数组，默认是包括终值的。
+
+### **算数运算**
+
+```python
+>>> x1 = np.arange(1,11,2)
+>>> x2 = np.linspace(1,9,5)
+>>> print (np.add(x1,x2))
+[ 2.  6. 10. 14. 18.]
+>>> print (np.subtract(x1,x2))
+[0. 0. 0. 0. 0.]
+>>> print (np.multiply(x1,x2))
+[ 1.  9. 25. 49. 81.]
+>>> print (np.divide(x1,x2))
+[1. 1. 1. 1. 1.]
+>>> print (np.power(x1,x2))
+[1.00000000e+00 2.70000000e+01 3.12500000e+03 8.23543000e+05
+ 3.87420489e+08]
+>>> print (np.remainder(x1,x2))
+[0. 0. 0. 0. 0.]
+>>> 
+```
+
+通过Numpy可以自由地创建等差数组，同时可以进行加、减、乘、除、求n次方和取余数。在n次方中，以第一个数组的元素为基数。以第二个数组的元素为次方的次数。在取余函数里，可以用remainder()，也可以用mod(x1,x2)，结果是一样的。
+
+##**统计函数**
+
+### **计算数组/矩阵中的最大值函数amax(), 最小值函数amin()**
+
+```python
+>>> a = np.array([[1,2,3],[4,5,6],[7,8,9]])
+>>> print (np.amin(a))
+1
+>>> print (np.amin(a,0))
+[1 2 3]
+>>> print (np.amin(a,1))
+[1 4 7]
+>>> print (np.amax(a))
+9
+>>> print (np.amax(a,0))
+[7 8 9]
+>>> print (np.amax(a,1))
+[3 6 9]
+```
+
+amin()用于计算数组中的元素沿指定轴的最小值。对于一个二维数组a，amin(a)指的是数组中全部元素的最小值。amin(a,0)是沿着axis = 0轴的最小值，axis=0 轴是把元素看成了[1，4，7]，[2，5，8]，[3，6，9]三个元素，所以最小值是[1，2，3]，axis=1轴是把元素看成了[1，2，3]，[4，5，6][7，8，9]三个元素，所以最小值为[1，4，7]。同理amax()s是计算数组中元素沿着指定轴的最大值。
+
+###**统计最大值与最小值之差ptp()**
+
+```python
+>>> print (np.ptp(a))
+8
+>>> print (np.ptp(a,0))
+[6 6 6]
+>>> print (np.ptp(a,1))
+[2 2 2]
+>>> 
+```
+
+对于相同的数组，ptp()可以统计数组中最大值与最小值的差
+
+### **统计数组的百分位数 percentile()**
+
+```python
+>>> print (np.percentile(a,50))
+5.0
+>>> print (np.percentile(a,50,axis = 0))
+[4. 5. 6.]
+>>> print (np.percentile(a,50,axis = 1))
+[2. 5. 8.]
+```
+
+percentile()代表第p个百分位数，这里p的取值范围是0-100，如果p=0，就是求最小值，如果p=50，就是求平均值，如果p=100，就是求最大值。同样可以求得axis=0，和axis=1两个轴上的p%的百分位数
+
+###**统计数组中的中位数median()、平均数mean()**
+
+```python
+>>> print (np.median(a))
+5.0
+>>> print (np.median(a,axis=0))
+[4. 5. 6.]
+>>> print (np.median(a,axis=1))
+[2. 5. 8.]
+>>> print (np.mean(a))
+5.0
+>>> print (np.mean(a,axis=0))
+[4. 5. 6.]
+>>> print (np.mean(a,axis=1))
+[2. 5. 8.]
+>>> 
+```
+
+可以用median()和mean()求数组的中位数、平均值，同样也可以求得在axis=0和1两个轴上的中位数。平均数。
+
+###**统计数组中的加权平均值average()**
+
+```python
+>>> a = np.array([1,2,3,4])
+>>> wts = np.array([1,2,3,4])
+>>> print (np.average(a))
+2.5
+>>> print (np.average(a,weights=wts))
+3.0
+>>> 
+```
+
+average()函数可以求加权平均，加权平均的意思是每个元素可以设置权重，默认情况下每个元素的权重相同，也可以指定权重数组，这样加权平均average(a,weights=wts)=(1 * 1+2 * 2+3 * 3+4*4)/(1+2+3+4)=3。
+
+###**统计数组中的标准差std()、方差var()**
+
+```python
+>>> a=np.array([1,2,3,4])
+>>> print (np.std(a))
+1.118033988749895
+>>> print (np.var(a))
+1.25
+```
+
+方差的计算是指每个数值与平均值之间的平方求和的平均值，即mean((x - x。mean())*2)。标准差是方差的算术平方根。在数学意义上，代表的是一组数据离平均值的分散程度。
+
+## **NumPy排序**
+
+排序是算法中使用频率最高的一种，这些排序算法在NumPy中实现起来比较简单，一条语句就可以搞定。
+
+```python
+>>> a=np.array([[4,3,2],[2,4,1]])
+>>> print (np.sort(a))
+[[2 3 4]
+ [1 2 4]]
+>>> print (np.sort(a,axis=None))
+[1 2 2 3 4 4]
+>>> print (np.sort(a,axis=0))
+[[2 3 1]
+ [4 4 2]]
+>>> print (np.sort(a,axis=1))
+[[2 3 4]
+ [1 2 4]]
+```
+
+sort(a, axis = -1,kind ='quicksort',order=None),默认情况下使用的是快速排序；在kind里，可以指定quicksort、mergesort、heapsort。同样axis默认是-1，即沿着数组的最后一个轴进行排序，也可以取不同的轴，或者axis=None代表采用扁平化的方式作为一个向量进行排序。
+
+![NumPy结构](images/Numpy.jpg)
 
