@@ -668,3 +668,53 @@ sort(a, axis = -1,kind ='quicksort',order=None),默认情况下使用的是快�
 
 ![NumPy结构](images/Numpy.jpg)
 
+
+
+练习题：统计全班成绩
+
+用Numpy统计这些人在语文、英语、数学中的平均成绩、最小成绩、最大成绩、方差、标准差。然后把这些人的总成绩排序，得出名字进行成绩输出。
+
+![](images/NumPy练习题.jpg)
+
+```Python
+>>> scoretype = np.dtype({'names':['name','chinese','english','math'], 'formats':['S32','i','i','i']})
+>>> peoples = np.array([('zhangfei',66,65,30),('guanyu',95,85,98),('zhaoyun',93,92,96),('huangzhong',90,88,77),('dianwei',80,90,90)],dtype = scoretype)
+>>> chineses = peoples[:]['chinese']
+>>> englishes = peoples[:]['english']
+>>> maths = peoples[:]['math']
+>>> #各科平均成绩
+>>> print ('语文平均成绩',np.mean(chineses))
+语文平均成绩 84.8
+>>> print ('英语平均成绩',np.mean(englishes))
+英语平均成绩 84.0
+>>> print ('数学平均成绩',np.mean(maths))
+数学平均成绩 78.2
+>>> print ('语文最低分',np.amin(chineses))
+语文最低分 66
+>>> print ('英语最低分',np.amin(englishes))
+英语最低分 65
+>>> print ('数学最低分',np.amin(maths))
+数学最低分 30
+>>> print ('语文最高分',np.amax(chineses))
+语文最高分 95
+>>> print ('英语最高分',np.amax(englishes))
+英语最高分 92
+>>> print ('数学最高分',np.amax(maths))
+数学最高分 98
+>>> print ('语文成绩方差',np.var(chineses))
+语文成绩方差 114.96000000000001
+>>> print ('英语成绩方差',np.var(englishes))
+英语成绩方差 95.6
+>>> print ('数学成绩方差',np.var(maths))
+数学成绩方差 634.56
+>>> print ('语文成绩标准差',np.std(chineses))
+语文成绩标准差 10.721940122944169
+>>> print ('英语成绩标准差',np.std(englishes))
+英语成绩标准差 9.777525249264253
+>>> print ('数学成绩标准差',np.std(maths))
+数学成绩标准差 25.19047439013406
+>>> print ('总成绩排序',sorted(peoples,key = lambda x:x[1]+x[2]+x[3],reverse=True))
+总成绩排序 [(b'zhaoyun', 93, 92, 96), (b'guanyu', 95, 85, 98), (b'dianwei', 80, 90, 90), (b'huangzhong', 90, 88, 77), (b'zhangfei', 66, 65, 30)]
+>>> 
+```
+
