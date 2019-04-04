@@ -670,7 +670,7 @@ sort(a, axis = -1,kind ='quicksort',order=None),默认情况下使用的是快�
 
 
 
-练习题：统计全班成绩
+**练习题：统计全班成绩**
 
 用Numpy统计这些人在语文、英语、数学中的平均成绩、最小成绩、最大成绩、方差、标准差。然后把这些人的总成绩排序，得出名字进行成绩输出。
 
@@ -715,6 +715,293 @@ sort(a, axis = -1,kind ='quicksort',order=None),默认情况下使用的是快�
 数学成绩标准差 25.19047439013406
 >>> print ('总成绩排序',sorted(peoples,key = lambda x:x[1]+x[2]+x[3],reverse=True))
 总成绩排序 [(b'zhaoyun', 93, 92, 96), (b'guanyu', 95, 85, 98), (b'dianwei', 80, 90, 90), (b'huangzhong', 90, 88, 77), (b'zhangfei', 66, 65, 30)]
+>>> 
+```
+
+# **Python科学计算：Panda**s
+
+Pandas是基于NumPy构建的含有更高级别数据结构和分析能力的工具包。Series和DataFrame是Pandas的两个狠心数据结构。分别代表一维的序列和二维的表结构，并且DataFrame与json契合度很高。基于这两种数据结构，Pandas可以对数据进行导入、清洗、处理、统计和输出。
+
+##**数据结构Series和DataFrame**
+
+**Series**是定长的字典序列，相当于两个ndarray。而在字典结构中，元素的个数是不固定的，这是Series与字典的最大不同。
+
+若没有安装pandas，需要在终端执行Python3 -m pid install pandas(若有一个版本的Python，不需要加上Python版本)
+
+```python
+>>> import pandas as pd
+>>> from pandas import Series,DataFrame
+>>> x1 = Series([1,2,3,4])
+>>> x2 = Series(data=[1,2,3,4],index=['a','b','c','d'])
+>>> print (x1)
+0    1
+1    2
+2    3
+3    4
+dtype: int64
+>>> print (x2)
+a    1
+b    2
+c    3
+d    4
+dtype: int64
+>>> 
+```
+
+Series有两个基本属性：index和values。index默认是0，1，2，3，…整数序列，也可以自己指定索引。
+
+Series也可以采用字典的形式来创建
+
+```python
+>>> d = {'a':1,'b':2,'c':3,'d':4}
+>>> x3 = Series(d)
+>>> print (x3)
+a    1
+b    2
+c    3
+d    4
+dtype: int64
+>>> 
+```
+
+
+
+**DataFrame**类似数据结构类似数据库表。它包括了航索引和列索引，可以将DataFrame看成是由相同索引的Series组成的字典类似。
+
+```python
+>>> data = {'Chinese':[66,95,93,90,80],'English':[65,85,92,88,90],'Math':[30,98,96,77,90]}
+>>> df1=DataFrame(data)
+>>> df2=DataFrame(data,index=['ZhangFei','GuanYu','ZhaoYun','HuangZhong','DianWei'],columns=['English','Math','Chinese'])
+>>> print (df1)
+   Chinese  English  Math
+0       66       65    30
+1       95       85    98
+2       93       92    96
+3       90       88    77
+4       80       90    90
+>>> print (df2)
+            English  Math  Chinese
+ZhangFei         65    30       66
+GuanYu           85    98       95
+ZhaoYun          92    96       93
+HuangZhong       88    77       90
+DianWei          90    90       80
+>>> 
+```
+
+DataFrame可以设置列索引和行索引，在df2中列索引是['ZhangFei','GuanYu','ZhaoYun','HuangZhong','DianWei']，行索引是['English','Math','Chinese']
+
+##**数据导入和输出**
+
+Pandas允许直接从xlsx，csv等文件中导入数据，也可以输出到xlsx，csv等文件
+
+```python
+>>> score = DataFrame(pd.read_excel('/Users/apple/Desktop/GitHubProject/Read mark/数据分析/geekTime/data/score.xlsx'))
+>>> score.to_excel('/Users/apple/Desktop/GitHubProject/Read mark/数据分析/geekTime/data/score1.xlsx')
+>>> print (score)
+   Unnamed: 0  English  Chinese  Math
+0    ZhangFei       65       30    66
+1      GuanYu       85       98    95
+2     ZhaoYun       92       96    93
+3  HuangZhong       88       77    90
+4     DianWei       90       90    80
+>>> 
+```
+
+默认打开的是工作簿的第一张表，可以通过sheet_name = ''进行名称指定，也可以通过sheet[1]进行指定，1代表第二张表。
+
+##**数据清洗**
+
+数据清洗是数据准备过程中必不可少的环节，pandas提供了数据清洗的工具。
+
+1.删除DataFrame中不必要的列或行
+
+```python
+>>> df2 = df2.drop(columns=['Chinese'])
+>>> df2 = df2.drop(index=['ZhangFei'])
+```
+
+2.重命名列名columns，让列表名更容易识别
+
+```python
+>>> df2.rename(columns={'Chinese':'YuWen','English':'Yingyu'},inplace=True)
+```
+
+3.去重复的值
+
+```python
+>>> df2 = df2.drop_duplicates()
+```
+
+4.格式问题
+
+更改数据格式
+
+```py
+>>> df2['Chinese'].astype(str)
+#修改整个表的数据格式
+>>> df2 = df2.applymap(str)
+```
+
+删除数据空格
+
+```python
+#删除两边空格
+>>> df2['Chinese']=df2['Chinese'].map(str.strip)
+>>> #删除左边空格
+>>> df2['Chinese']=df2['Chinese'].map(str.lstrip)
+#删除右边空格
+>>> df2['Chinese']=df2['Chinese'].map(str.rstrip)
+```
+
+删除数据中的指定字符
+
+```python
+>>> df2['Chinese']=df2['Chinese'].str.strip('$')
+```
+
+大小写转换
+
+```python
+>>> #全部大写
+>>> df2.columns = df2.columns.str.upper()
+>>> #全部小写
+>>> df2.columns = df2.columns.str.lower()
+>>> #首字母大写
+>>> df2.columns = df2.columns.str.title()
+```
+
+空值查找
+
+```python
+>>> df2.isnull()
+            English   Math  Chinese
+ZhangFei      False  False    False
+GuanYu        False  False    False
+ZhaoYun       False  False    False
+HuangZhong    False  False    False
+DianWei       False  False    False
+
+#查找列中有无空值
+>>> df2.isnull().any()
+English    False
+Math       False
+Chinese    False
+dtype: bool
+```
+
+使用apply函数对数据进行清洗
+
+```python
+>>>#对Math列的数值进行大写转换
+>>> df2['Math']=df2['Math'].apply(str.upper)
+```
+
+新增列或行
+
+```python
+>>> def plus(df2,n,m):
+	df2['new1'] = (df2[u'Chinese']+df2[u'English'])*m
+	df2['new2'] = (df2[u'Chinese']+df2[u'English'])*n
+	return df2
+>>> df3 = df2.apply(plus, axis = 1, args=(2,3,))
+>>> print (df3)
+           English Math Chinese          new1      new2
+ZhangFei        65   30      66  666566656665  66656665
+GuanYu          85   98      95  958595859585  95859585
+ZhaoYun         92   96      93  939293929392  93929392
+HuangZhong      88   77      90  908890889088  90889088
+DianWei         90   90      80  809080908090  80908090
+```
+
+其中axis=1，代表按照列为轴进行操作，axis=0 代表按照行为轴进行操作，args是传递两个参数
+
+##**数据统计**
+
+Pandas和NumPy一样，都有常用的统计函数，如果遇到空值，会自动排除
+
+count():统计个数
+
+describle()：一次性输出多个统计指标，包括count、mean、std、min等
+
+min()：最小值
+
+max():最大值
+
+sum():总和
+
+mean():平均值
+
+median():中位数
+
+var():方差
+
+std():标准差
+
+argmin():统计最小值的索引位置
+
+argmax():统计最大值的索引位置
+
+idxmin():统计最小值的索引值
+
+idxmax():统计最大值的索引值
+
+```python
+>>> print (df2.describe())
+       English Math Chinese
+count        5    5       5
+unique       5    5       5
+top         92   96      90
+freq         1    1       1
+```
+
+##**数据表合并**
+
+一个DataFrame相当于一个数据库的数据表，多个DataFrame数据表的合并就相当于多个数据库的表合并。
+
+```python
+>>> #基于指定列进行连接
+>>> df3=pd.merge(df1,df2,on='name')
+>>> print (df3)
+       name  data1  data2
+0  ZhangFei      0      0
+1    GuanYu      1      1
+>>> #inner内连接
+>>> df3=pd.merge(df1,df2,how='inner')
+>>> print (df3)
+       name  data1  data2
+0  ZhangFei      0      0
+1    GuanYu      1      1
+>>> #left左连接
+>>> df3 = pd.merge(df1,df2,how='left')
+>>> print (df3)
+       name  data1  data2
+0  ZhangFei      0    0.0
+1    GuanYu      1    1.0
+2         a      2    NaN
+3         b      3    NaN
+4         c      4    NaN
+>>> #right右连接
+>>> df3=pd.merge(df1,df2,how='right')
+>>> print (df3)
+       name  data1  data2
+0  ZhangFei    0.0      0
+1    GuanYu    1.0      1
+2         A    NaN      2
+3         B    NaN      3
+4         C    NaN      4
+>>> #outer外连接
+>>> df3 = pd.merge(df1,df2,how='outer')
+>>> print(df3)
+       name  data1  data2
+0  ZhangFei    0.0    0.0
+1    GuanYu    1.0    1.0
+2         a    2.0    NaN
+3         b    3.0    NaN
+4         c    4.0    NaN
+5         A    NaN    2.0
+6         B    NaN    3.0
+7         C    NaN    4.0
 >>> 
 ```
 
