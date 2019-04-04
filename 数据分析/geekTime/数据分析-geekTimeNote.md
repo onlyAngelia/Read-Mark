@@ -1005,3 +1005,27 @@ freq         1    1       1
 >>> 
 ```
 
+inner内连接是merge合并的默认情况，inner内连接其实就是键的交集；
+
+left左连接是以第一个DataFrame为主进行的连接，第二个DataFrame作为补充；
+
+right右连接是以第二个DataFrame为主进行的连接，第一个DataFrame作为补充；
+
+outer外连接相当于求两个DataFrame的并集。
+
+##**pandasql:使用SQL方式打开Pandas**
+
+利用pandasql可以制动使用SQL语句来操作Pandas。
+
+```python
+>>> from pandasql import sqldf,load_meat,load_births
+>>> df1 = DataFrame({'name':['ZhangFei','GuanYu','a','b','c'],'data1':range(5)})
+>>> pysqldf = lambda sq1:sqldf(sql,globals())
+>>> sql = "select * from df1 where name = 'ZhangFei'"
+>>> print (pysqldf(sql))
+       name  data1
+0  ZhangFei      0
+```
+
+#**数据分析要掌握的基本概念**
+
