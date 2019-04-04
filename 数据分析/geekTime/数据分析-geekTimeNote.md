@@ -1027,5 +1027,62 @@ outer外连接相当于求两个DataFrame的并集。
 0  ZhangFei      0
 ```
 
-#**数据分析要掌握的基本概念**
 
+
+练习题：
+
+```python
+>>> data={'Chinese':[66,95,95,90,80,80],'English':[65,85,92,88,90,90],'Math':[None,98,96,77,90,90]}
+>>> scoreframe = DataFrame(data,index=['张飞','关羽','赵云','黄忠','典韦','典韦'],columns=['Chinese','English','Math'])
+>>> #删除重复数据
+>>> scoreframe.drop_duplicates()
+    Chinese English Math
+张飞 66 65 NaN
+关羽 95 85 98.0
+赵云 95 92 96.0
+黄忠 90 88 77.0
+典韦 80 90 90.0
+>>> #第一步：删除重复数据
+>>> scoreframe.drop_duplicates()
+    Chinese English Math
+张飞 66 65 NaN
+关羽 95 85 98.0
+赵云 95 92 96.0
+黄忠 90 88 77.0
+典韦 80 90 90.0
+>>> 第二步:#检查是否有空值
+>>> scoreframe.isnull()
+    Chinese English Math
+张飞 False False True
+关羽 False False False
+赵云 False False False
+黄忠 False False False
+典韦 False False False
+典韦 False False False
+>>> #对张飞的数学成绩进行补充
+>>> scoreframe['Math'].fillna(scoreframe['Math'].mean(),inplace = True)
+>>> #添加新的一行，求和
+>>> def total_score(scoreframe):
+scoreframe['总分'] = scoreframe.sum(axis=0)
+return scoreframe
+>>> scoreframe = scoreframe.apply(total_score,axis =1)
+    Chinese English Math 总分
+张飞 66.0 65.0 90.2 221.2
+关羽 95.0 85.0 98.0 278.0
+赵云 95.0 92.0 96.0 283.0
+黄忠 90.0 88.0 77.0 255.0
+典韦 80.0 90.0 90.0 260.0
+典韦 80.0 90.0 90.0 260.0
+>>> #替换名称
+>>> scoreframe.rename(columns={'Chinese':'语文','English':'英语','Math':'数学'},inplace = True)
+>>> print (scoreframe)
+      语文 英语 数学 总分
+张飞 66.0 65.0 90.2 221.2
+关羽 95.0 85.0 98.0 278.0
+赵云 95.0 92.0 96.0 283.0
+黄忠 90.0 88.0 77.0 255.0
+典韦 80.0 90.0 90.0 260.0
+典韦 80.0 90.0 90.0 260.0
+```
+
+#数据分析要掌握的基本概念**
