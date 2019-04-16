@@ -241,7 +241,7 @@ CART分类树准确率 0.9600
 
 ```
 
-### CART回归树的工作流程：LAD&LSD
+### **CART回归树的工作流程：LAD&LSD**
 
 回归树得到的预测结果是连续的，而且评判"不纯度"的指标不同。CART回归树中采用样本的离散度作为"不纯度"的评判标准。
 
@@ -257,5 +257,32 @@ CART分类树准确率 0.9600
 
 两种节点划分的标准，分别对应着两种目标函数最优化的标准，用最小绝对偏差(LAD)，或者最小二乘偏差(LSD)。后者更长见一些
 
-### 使用CART回归树做预测
+### **使用CART回归树做预测**
+
+```python
+>>>from sklearn.metrics import mean_squared_error
+>>>from sklearn.model_selection import train_test_split
+>>>from sklearn.datasets import load_boston
+>>>from sklearn.metrics import r2_score,mean_absolute_error,mean_squared_error
+>>>from sklearn.tree import DecisionTreeRegressor
+>>> #准备数据集
+>>> boston = load_boston()
+>>> #获取特征值
+>>> features = boston.data
+>>> prices = boston.target
+>>> #随机抽取33%的数据作为测试集，其余为训练集
+>>> train_features,test_features,train_price,test_price = train_test_split(features,prices,test_size=0.33, random_state=0)
+>>> dtr = DecisionTreeRegressor()
+>>> dtr.fit(train_features,train_price)
+DecisionTreeRegressor(criterion='mse', max_depth=None, max_features=None,
+           max_leaf_nodes=None, min_impurity_decrease=0.0,
+           min_impurity_split=None, min_samples_leaf=1,
+           min_samples_split=2, min_weight_fraction_leaf=0.0,
+           presort=False, random_state=None, splitter='best')
+>>> predict_price = dtr.predict(test_features)
+>>> print ('回归树二乘偏差均值：',mean_squared_error(test_price,predict_price))
+回归树二乘偏差均值： 25.709580838323355
+>>> print ('回归树绝对值偏差均值：',mean_absolute_error(test_price,predict_price))
+回归树绝对值偏差均值
+```
 
