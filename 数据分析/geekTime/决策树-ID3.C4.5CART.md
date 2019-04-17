@@ -350,7 +350,7 @@ C4.5：基于信息增益率做判断
 
 CART：分类树基于基尼系数做判断，回归树基于偏差做判断
 
-## CART课后练习
+###**CART课后练习**
 
 sklearn 中有个手写数字数据集，调用的方法是 load_digits()，你能否创建一个 CART 分类树，对手写数字数据集做分类？另外选取一部分测试集，统计下分类树的准确率？
 
@@ -380,4 +380,13 @@ sklearn 中有个手写数字数据集，调用的方法是 load_digits()，你�
 CART分类树准确率0.8164
 ```
 
-##决策树实践：泰坦尼克乘客生存预测
+
+
+##**决策树实践：泰坦尼克乘客生存预测**
+
+sklearn中只实现了ID3与CART两种决策树，字段criterion 取值决定构造哪种决策树。取值为'entroy' 或'gini'
+
+###**DecisionTreeClassfier参数含义**
+
+![](images/DecisionTreeClassifier参数含义.jpg)
+
