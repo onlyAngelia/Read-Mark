@@ -350,4 +350,34 @@ C4.5：基于信息增益率做判断
 
 CART：分类树基于基尼系数做判断，回归树基于偏差做判断
 
-##CART课后作业
+## CART课后练习
+
+sklearn 中有个手写数字数据集，调用的方法是 load_digits()，你能否创建一个 CART 分类树，对手写数字数据集做分类？另外选取一部分测试集，统计下分类树的准确率？
+
+```python
+>>>from sklearn.model_selection import train_test_split
+>>>from sklearn.metrics import accuracy_score
+>>>from sklearn.tree import DecisionTreeClassifier
+>>>from sklearn.datasets import load_digits
+>>>import ssl
+>>>ssl._create_default_https_context = ssl._create_unverified_context
+>>>#准备数据
+>>>digits = load_gigits()
+>>>#获取特征集和分类标识
+>>>features = digits.data
+>>>labels = digits.target
+>>> #随机抽取40%作为测试数据，其余作为训练集
+>>>train_features,test_features,train_labels,test_labels = train_test_split(features,labels, test_size = 0.40, random_state = 0)
+>>>#创建CART分类树
+>>>clf = DecisionTreeClassifier(criterion='gini')
+>>>#拟合构建CART分类树
+>>>clf.fit(train_features, train_labels)
+>>>#用CART分类树做预测
+>>>test_predic = clf.predict(test_features)
+>>>#预测结果与测试结果做比对
+>>>score = accuracy_score(test_labels, test_predic)
+>>>print ('CART分类树准确率%.4lf', %score)
+CART分类树准确率0.8164
+```
+
+##决策树实践：泰坦尼克乘客生存预测
