@@ -153,4 +153,89 @@ print('准确率:', metrics.accuracy_score(prediction, test_y))
 
 ```
 
- ###**线性SVM：LinearSVC检测**
+### **线性SVM：LinearSVC检测**
+
+```python
+import  pandas as  pd
+import  matplotlib.pyplot as  plt
+import  seaborn as  sns
+from sklearn.model_selection import  train_test_split
+from sklearn import  svm
+from sklearn import  metrics
+from sklearn.preprocessing import  StandardScaler
+
+#导入数据
+path = '/Users/apple/Desktop/GitHubProject/Read mark/数据分析/geekTime/data/'
+data = pd.read_csv(path + 'breast_cancer/data.csv')
+
+#数据探索
+pd.set_option('display.max_columns', None)
+print(data.columns)
+print(data.head(5))
+print(data.describe())
+
+#将特征字段进行分组
+features_mean = list(data.columns[2:12])
+features_se = list(data.columns[12:22])
+features_worst = list(data.columns[22:32])
+
+#数据清洗
+#删除ID列
+data.drop('id',axis=1,inplace=True)
+#将良性B替换为0，将恶性替换为1
+data['diagnosis'] = data['diagnosis'].map({'B':0,'M':1})
+
+#将肿瘤诊断结果可视化
+sns.countplot(data['diagnosis'],label='count')
+plt.show()
+#计算相关系数
+corr = data[features_mean].corr()
+plt.figure(figsize=(14,14))
+
+#用热力图呈现相关性，显示每个方格的数据
+sns.heatmap(corr,annot=True)
+plt.show()
+
+#特征选择，选择所有的mean数据
+feature_remain = ['radius_mean', 'texture_mean', 'perimeter_mean',
+       'area_mean', 'smoothness_mean', 'compactness_mean', 'concavity_mean',
+       'concave points_mean', 'symmetry_mean', 'fractal_dimension_mean']
+
+#抽取30%特征选择作为测试数据，其余作为训练集
+train,test = train_test_split(data,test_size=0.3)
+#抽取特征选择作为训练和测试数据
+train_data = train[feature_remain]
+train_result = train['diagnosis']
+test_data = test[feature_remain]
+test_result = test['diagnosis']
+
+#创建SVM分类器
+model = svm.LinearSVC()
+#用训练集做训练
+model.fit(train_data,train_result)
+#用测试集做预测
+prediction = model.predict(test_data)
+#准确率
+print('准确率:', metrics.accuracy_score(prediction,test_result))
+
+#规范化数据，再预估准确率
+z_score = StandardScaler()
+train_data = z_score.fit_transform(train_data)
+test_data = z_score.transform(test_data)
+#用新数据做训练
+new_model = svm.LinearSVC()
+new_model.fit(train_data,train_result)
+#重新预测
+new_prediction = new_model.predict(test_data)
+#准确率
+print('准确率:',metrics.accuracy_score(new_prediction,test_result))
+```
+
+输出结果：
+
+```python
+准确率: 0.7953216374269005
+准确率: 0.935672514619883
+```
+
+经过比较可以看出，特征选择值越多，对训练结果的准确度越高；数据越规范，训练结果准确度越高
