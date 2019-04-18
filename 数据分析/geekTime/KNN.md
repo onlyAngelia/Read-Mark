@@ -58,3 +58,98 @@ KD树：K-Dimensional ，是一种每个节点都是k维数值点的二叉树。
 
 对于一个新点，找出k个最近邻居，将他们的属性加权评均赋给该点。
 
+## KNN实践-手写数字进行识别
+
+```python
+from sklearn.model_selection import  train_test_split
+from sklearn.metrics import  accuracy_score
+from sklearn.datasets import  load_digits
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
+import matplotlib.pyplot as  plt
+# import ssl
+#
+# ssl._create_default_https_context = ssl._create_unverified_context
+
+#加载数据
+digits = load_digits()
+data = digits.data
+#数据探索
+print(data.shape)
+print(digits.images[0])
+print(digits.target[0])
+plt.gray()
+plt.imshow(digits.images[0])
+plt.show()
+
+#分割数据，将25%的数据作为测试集，其余作为训练集
+train_data,test_data,train_result,test_result = train_test_split(data,digits.target,test_size=0.25,random_state=33)
+#采用Z-Score规范化
+score = StandardScaler()
+train_score_data = score.fit_transform(train_data)
+test_score_data = score.transform(test_data)
+
+#创建KNN分类器
+knn = KNeighborsClassifier()
+knn.fit(train_score_data,train_result)
+predict_result = knn.predict(test_score_data)
+print('knn默认k值为5 准确率:%.4lf' %accuracy_score(predict_result,test_result))
+
+#创建K值为200的KNN分类器
+kvalue_twenty_knn = KNeighborsClassifier(n_neighbors=200)
+kvalue_twenty_knn.fit(train_score_data,train_result)
+print('knn的k值为200的准确率:%.4lf' %accuracy_score(kvalue_twenty_knn.predict(test_score_data),test_result))
+
+#创建svm分类器
+svm = SVC()
+svm.fit(train_score_data,train_result)
+spredict_result = svm.predict(test_score_data)
+print('SVM分类准确率:%.4lf' %accuracy_score(spredict_result,test_result))
+
+#创建高斯朴素贝叶斯分类器
+clf = GaussianNB()
+clf.fit(train_score_data, train_result)
+gspredict_result = clf.predict(test_score_data)
+print('高斯朴素贝叶斯准确率:%.4lf' %accuracy_score(gspredict_result,test_result))
+
+#CART决策树和多项式朴素贝叶斯只支持离散数据，所以进行Min-Max规范化处理
+min_max_scaler = MinMaxScaler()
+train_mm_data = min_max_scaler.fit_transform(train_data)
+test_mm_data = min_max_scaler.transform(test_data)
+
+#创建多项式朴素贝叶斯分类器
+mlf = MultinomialNB()
+mlf.fit(train_mm_data,train_result)
+mpredict_result = mlf.predict(test_mm_data)
+print('多项式朴素贝叶斯分类器准确率:%.4lf' %accuracy_score(mpredict_result,test_result))
+
+#创建CART决策树
+cart = DecisionTreeClassifier()
+cart.fit(train_mm_data,train_result)
+cpredict_result = cart.predict(test_mm_data)
+print('CART决策树准确率:%.4lf' %accuracy_score(cpredict_result,test_result))
+
+#创建高斯朴素贝叶斯分类器
+clf = GaussianNB()
+clf.fit(train_mm_data, train_result)
+gspredict_result = clf.predict(test_mm_data)
+print('高斯朴素贝叶斯准确率:%.4lf' %accuracy_score(gspredict_result,test_result))
+```
+
+输出结果:
+
+```python
+knn默认k值为5 准确率:0.9756
+knn的k值为200的准确率:0.8489
+SVM分类准确率:0.9867
+高斯朴素贝叶斯准确率:0.7778
+多项式朴素贝叶斯分类器准确率:0.8844
+CART决策树准确率:0.8400
+高斯朴素贝叶斯准确率:0.8111
+```
+
