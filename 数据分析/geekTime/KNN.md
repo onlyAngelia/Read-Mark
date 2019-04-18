@@ -153,3 +153,26 @@ CART决策树准确率:0.8400
 高斯朴素贝叶斯准确率:0.8111
 ```
 
+
+
+**KNN算法参数**：
+
+1.n_neighbors := k = 5(默认下) /邻居的数目
+2.weights = 'uniform'/'distance'/权重
+
+​		uniform：权重相同，求平均值
+
+​		distance：根据距离的倒数
+
+3.algorithm='auto'/'ball_tree'/'kd_tree'/'brute' /规定邻居选择的方式
+
+​			auto：根据数据自动选择
+
+​			kd_tree：类似平衡二叉树，提高查找效率，多维空间的数据结
+
+​			ball_tree：适用于维度大的
+
+​			brute： 暴力搜索，线性扫描
+
+4.leaf_size:叶子数
+
