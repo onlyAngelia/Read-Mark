@@ -1,4 +1,6 @@
-分类记录阅读技术书籍、文档或视频资料的笔记，总结中在对原信息源整理的基础上加入自己的总结以及自己掌握知识的扩充。
+[TOC]
+
+分类记录阅读技术书籍、文档或视频资料的笔记，总结中在对原信息源整理的基础上加入自己的总结以及自己掌握知识的扩充。建议下载用支持显示目录的markdown编辑器查看
 
 # **数据分析**：
 
@@ -6,23 +8,29 @@
 
 [数据分析Python基础、基本概念、用户画像](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/数据分析-geekTimeNote.md)
 
-[数据采集、集成、清洗、可视化]()
+[数据采集、集成、清洗、可视化](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/数据采集、集成、变换、可视化.md)
 
-[机器学习算法-决策树ID3、C4.5、CART]()
+[机器学习算法-决策树ID3、C4.5、CART](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/决策树-ID3.C4.5CART.md)
 
-[机器学习算法-朴素贝叶斯]()
+[机器学习算法-朴素贝叶斯](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/朴素贝叶斯.md)
 
-[机器学习算法SVM]()
+[机器学习算法-SVM](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/SVM.md)
 
-#**网络**
+[机器学习算法-KNN](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/KNN.md)
 
-##**HTTP**：
+
+
+# **算法**
+
+##ACM
+
+[ACM OnlineJudge](http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemId=1)
+
+#网络
+
+##HTTP
 
 [图解HTTP read mark](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/HTTP图解mark.md)
 
 [HTTP2/基础教程 read mark](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/HTTP2基础和实践.md)
-
-#**算法**：
-
-[ACM OnlineJudge](http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemId=1)
 
