@@ -223,3 +223,8 @@ img.save(path+'weixin_new.jpg')
 
 ![](data/weixin_new.jpg)
 
+实践中用到的PIL工具包，是Python图像处理标准库，英文全称：Python Imaging Library。 
+
+skimage工具包也是图像处理工具包，skimage可以和Matlab媲美，集成了很多图像处理函数。
+
+![](images/K-Means总结.png)
