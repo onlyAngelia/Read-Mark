@@ -79,3 +79,55 @@ print(result)
 
 5.algorithm: 实现算法，有'auto' '、full'、 'elkan'三种，默认auto，auto会根据数据特点选择是full还是elkan
 
+## K-Means实践(二)：根据图像通道数分割图像
+
+```python
+import numpy as  np
+import PIL.Image as  image
+from sklearn.cluster import KMeans
+from sklearn import preprocessing
+
+#加载图像，并对数据进行规范化
+path ='/Users/apple/Desktop/GitHubProject/Read mark/数据分析/geekTime/data/'
+def load_data(file_path):
+    f = open(file_path,'rb')
+    data = []
+    #得到图像像素值
+    img = image.open(f)
+    #得到图像尺寸
+    width, height = img.size
+    for x in  range(width):
+        for y in range(height):
+            #得到点（x，y）的通道值
+            c1,c2,c3 = img.getpixel((x,y))
+            data.append([c1,c2,c3])
+    f.close()
+    #采用Min-Max规范化
+    min_max_scaler = preprocessing.MinMaxScaler()
+    data = min_max_scaler.fit_transform(data)
+    return np.mat(data),width,height
+
+#加载图像，得到规范化结果img，以及图像尺寸
+img,width,height = load_data(path + 'weixin.jpg')
+
+#用k-means对图像进行2聚类
+kmeans = KMeans(n_clusters=2)
+kmeans.fit_transform(img)
+predict = kmeans.predict(img)
+
+#将图像聚类结果，转化成图像尺寸的矩阵
+result = predict.reshape([width,height])
+#创建新图像，保存图像聚类的结果，并设置不同灰度值
+pic_mark = image.new('L',(width,height))
+for x in  range(width):
+    for y in range(height):
+        pic_mark.putpixel((x,y),int(256/(result[x][y]+1))-1)
+pic_mark.save(path +'weixin_alpha.jpg','JPEG')
+```
+
+最终得到的图片结果为:
+
+![](data/weixin_alpha.jpg)
+
+##K-Means实战(三)：根据色值分割图像**
+
