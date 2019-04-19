@@ -65,3 +65,17 @@ print(result)
 19    巴勒斯坦         96       50       16   1
 ```
 
+**K-Means参数**：
+
+1.n_clusters: K值大小
+
+2.Max_iter: 最大迭代次数
+
+3.n_init：初始化中心点的运算次数，默认是10
+
+4.init:初始值选择方式，默认k-means++方式，可以自己指定，
+
+也可以采用random完全随机方式
+
+5.algorithm: 实现算法，有'auto' '、full'、 'elkan'三种，默认auto，auto会根据数据特点选择是full还是elkan
+
