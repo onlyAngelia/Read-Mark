@@ -79,7 +79,7 @@ print(result)
 
 5.algorithm: 实现算法，有'auto' '、full'、 'elkan'三种，默认auto，auto会根据数据特点选择是full还是elkan
 
-## K-Means实践(二)：根据图像通道数分割图像
+## **K-Means实践(二)：根据图像通道数分割图像**
 
 ```python
 import numpy as  np
@@ -129,5 +129,49 @@ pic_mark.save(path +'weixin_alpha.jpg','JPEG')
 
 ![](data/weixin_alpha.jpg)
 
-##K-Means实战(三)：根据色值分割图像**
+##**K-Means实战(三)：根据色值分割图像**
 
+```python
+# -*coding: utf-8 -*-
+import  numpy as  np
+import  PIL.Image as  image
+from sklearn.cluster import KMeans
+from sklearn import preprocessing
+from skimage import color
+#加载图像，并对数据进行规范化
+def load_data(file_path):
+    f = open(file_path, 'rb')
+    data = []
+    img = image.open(f)
+    #得到图像尺寸
+    width,height = img.size
+    for x in  range(width):
+        for y in  range(height):
+            c1,c2,c3 = img.getpixel((x,y))
+            data.append([c1,c2,c3])
+    f.close()
+    #min-max规范化
+    scaler = preprocessing.MinMaxScaler()
+    data=scaler.fit_transform(data)
+    return np.mat(data), width, height
+
+#加载图像得到规范化数据
+path ='/Users/apple/Desktop/GitHubProject/Read mark/数据分析/geekTime/data/'
+img,width,height = load_data(path + 'weixin.jpg')
+
+#用k-means对图像进行16聚类
+kmeans = KMeans(n_clusters=16)
+kmeans.fit_transform(img)
+predict = kmeans.predict(img)
+#将图像聚类结果，转换成图像尺寸矩阵
+result = predict.reshape([width,height])
+#将聚类标识转换为不同的矩阵
+result_color = (color.label2rgb(result)*225).astype(np.uint8)
+result_color = result_color.transpose(1,0,2)
+images = image.fromarray(result_color)
+images.save(path + 'weixin_color.jpg')
+```
+
+输出结果：
+
+![](data/weixin_color.jpg)
