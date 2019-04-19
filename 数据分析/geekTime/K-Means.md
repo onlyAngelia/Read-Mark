@@ -175,3 +175,51 @@ images.save(path + 'weixin_color.jpg')
 输出结果：
 
 ![](data/weixin_color.jpg)
+
+
+
+##**K-Means实践(四)：还原图片**
+
+```python
+# -*- coding: utf-8 -*-
+import numpy as  np
+import PIL.Image as  image
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import MinMaxScaler
+import  matplotlib.image as mpimage
+def load_data(file_path):
+    f = open(file_path,'rb')
+    data=[]
+    img = image.open(f)
+    width,height = img.size
+    for x in range(width):
+        for y in range(height):
+            c1,c2,c3 = img.getpixel((x,y))
+            data.append([(c1+1)/256.0, (c2+1)/256.0, (c3+1)/256.0])
+    f.close()
+    return np.mat(data), width, height
+
+path ='/Users/apple/Desktop/GitHubProject/Read mark/数据分析/geekTime/data/'
+img,width,height = load_data(path + 'weixin.jpg')
+
+#用K-Means对图像进行聚类
+kmeans = KMeans(n_clusters=16)
+predict = kmeans.fit_predict(img)
+#将图像聚类结果，转换成图像尺寸的矩阵
+result = predict.reshape(width,height)
+#创建新图像img,用来保存图像聚类压缩后的结果
+img = image.new('RGB',(width,height))
+for x in range(width):
+    for y in range(height):
+        c1=kmeans.cluster_centers_[result[x,y],0]
+        c2=kmeans.cluster_centers_[result[x,y],1]
+        c3=kmeans.cluster_centers_[result[x,y],2]
+        img.putpixel((x,y),(int(c1*256)-1, int(c2*256)-1, int(c3*256)-1))
+img.save(path+'weixin_new.jpg')
+
+```
+
+新生成图片
+
+![](data/weixin_new.jpg)
+
