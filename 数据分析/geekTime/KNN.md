@@ -58,7 +58,7 @@ KD树：K-Dimensional ，是一种每个节点都是k维数值点的二叉树。
 
 对于一个新点，找出k个最近邻居，将他们的属性加权评均赋给该点。
 
-## KNN实践-手写数字进行识别
+## **KNN实践-手写数字进行识别**
 
 ```python
 from sklearn.model_selection import  train_test_split
@@ -175,4 +175,3 @@ CART决策树准确率:0.8400
 ​			brute： 暴力搜索，线性扫描
 
 4.leaf_size:叶子数
-
