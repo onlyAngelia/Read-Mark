@@ -18,9 +18,15 @@
 
 [机器学习算法-KNN](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/KNN.md)
 
+[机器学习算法-K-Means](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/K-Means.md)
+
+[机器学习算法-EM聚类](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/EM聚类.md)
+
+[机器学习算法-关联规则算法Apriori](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/关联规则算法-Apriori.md)
 
 
-# **算法**
+
+# **算法进阶**
 
 ##ACM
 
