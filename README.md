@@ -24,7 +24,9 @@
 
 [机器学习算法-关联规则算法Apriori](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/关联规则算法-Apriori.md)
 
+[机器学习算法-PageRank](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/PageRank.md)
 
+[机器学习算法-AdaBoost](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/AdaBoost.md)
 
 # **算法进阶**
 
