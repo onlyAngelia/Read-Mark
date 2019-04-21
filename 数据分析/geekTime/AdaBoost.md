@@ -189,3 +189,57 @@ leg=ax.legend(loc='upper right',fancybox=True)
 plt.show()
 ```
 
+
+
+##**课后练习**
+
+```python
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import AdaBoostRegressor
+from sklearn.feature_extraction import DictVectorizer
+from sklearn.model_selection import cross_val_predict
+import pandas as pd
+import numpy as np
+
+#读取数据
+path = '/Users/apple/Desktop/GitHubProject/Read mark/数据分析/geekTime/data/'
+train_data = pd.read_csv(path + 'Titannic_Data_train.csv')
+test_data = pd.read_csv(path + 'Titannic_Data_test.csv')
+
+#数据清洗
+train_data['Age'].fillna(train_data['Age'].mean(),inplace=True)
+test_data['Age'].fillna(test_data['Age'].mean(), inplace=True)
+train_data['Embarked'].fillna('S', inplace=True)
+test_data['Embarked'].fillna('S', inplace=True)
+
+#特征选择
+features = ['Pclass','Sex','Age','SibSp','Parch','Embarked']
+train_features = train_data[features]
+train_result = train_data['Survived']
+test_features = test_data[features]
+devc = DictVectorizer(sparse=False)
+train_features = devc.fit_transform(train_features.to_dict(orient='record'))
+test_features = devc.fit_transform(test_features.to_dict(orient='record'))
+
+#构造决策树，进行预测
+tree_regressor = DecisionTreeRegressor()
+tree_regressor.fit(train_features,train_result)
+predict_tree = tree_regressor.predict(test_features)
+#交叉验证准确率
+print('CART决策树K折交叉验证准确率:', np.mean(cross_val_predict(tree_regressor,train_features,train_result,cv=10)))
+
+#构造AdaBoost
+ada_regressor = AdaBoostRegressor()
+ada_regressor.fit(train_features,train_result)
+predict_ada = ada_regressor.predict(test_features)
+#交叉验证准确率
+print('AdaBoostK折交叉验证准确率:',np.mean(cross_val_predict(ada_regressor,train_features,train_result,cv=10)))
+```
+
+输出结果：
+
+```python
+CART决策树K折交叉验证准确率: 0.39480897860892333
+AdaBoostK折交叉验证准确率: 0.4376641797318339
+```
+
