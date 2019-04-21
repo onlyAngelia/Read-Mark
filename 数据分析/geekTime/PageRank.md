@@ -69,3 +69,27 @@ $PR(u) = \dfrac{1-d}{N} + d\sum\limits_{v\in B_u} \dfrac{PR(v)}{L(v)}$
 
 其它可以应用的方面也还有很多
 
+##**PageRank实践**
+
+1.针对上面的网络例子，进行实践
+
+```python
+import networkx
+#创建有向图
+digraph = networkx.DiGraph()
+#有向图之间边的关系
+edges = [("A", "B"), ("A", "C"), ("A", "D"), ("B", "A"), ("B", "D"), ("C", "A"), ("D", "B"), ("D", "C")]
+for edge in edges:
+    digraph.add_edge(edge[0],edge[1])
+pagerank_list = networkx.pagerank(digraph, alpha=1)
+print('PageRank 值是：',pagerank_list)
+```
+
+输出结果：
+
+```python
+PageRank 值是： {'A': 0.33333396911621094, 'B': 0.22222201029459634, 'C': 0.22222201029459634, 'D': 0.22222201029459634}
+```
+
+2.希拉里邮件人物关系
+
