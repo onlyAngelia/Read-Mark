@@ -49,7 +49,7 @@ $w_1=M\times w_0=\begin{bmatrix} 0 & \dfrac{1}{2} &1&0\\ \dfrac{1}{3} &0&0&\dfra
 
 定义来阻尼因子d，而1-d则代表来用户是不是通过跳转链接的方式来访问网页的，公式为：
 
-$PR(u) = \dfrac{1-d}{N} + d\sum\limits_{v\in B_u} \dfrac{PR(v)}{L(v)}$
+$PR(u) = \dfrac{1-d}{N} + d\sum\limits_{v\in B_u} \dfrac{PR(v)}{L(v)}​$
 
 最终PageRank随机浏览模型可以收敛到固定值，得到一个稳定正常的PR值。
 
@@ -93,3 +93,113 @@ PageRank 值是： {'A': 0.33333396911621094, 'B': 0.22222201029459634, 'C': 0.2
 
 2.希拉里邮件人物关系
 
+```python
+import pandas as pd
+import networkx as  nx
+import  numpy as np
+from collections import defaultdict
+import matplotlib.pyplot as  plt
+
+#数据加载
+path = '/Users/apple/Desktop/GitHubProject/Read mark/数据分析/geekTime/data/'
+emails = pd.read_csv(path + 'xilali_email/Emails.csv')
+#读取别名文件
+file = pd.read_csv(path + 'xilali_email/Aliases.csv')
+aliases = {}
+for index,row in file.iterrows():
+    aliases[row['Alias']] = row['PersonId']
+#读取人名文件
+pers_file = pd.read_csv(path + '/xilali_email/Persons.csv')
+persons = {}
+for index,row in pers_file.iterrows():
+    persons[row['Id']] = row['Name']
+
+#针对别名进行转换
+def unify_name(name):
+    name = str(name).lower()
+    name = name.replace(",","").split("@")[0]
+    if name in aliases.keys():
+        return persons[aliases[name]]
+    return name
+
+#画网络图
+def show_graph(graph):
+    #使用Spring Layout布局，类似中心放射状
+    positions = nx.spring_layout(graph)
+    #设置网络图的节点大小，大小与pagerank值相关，因为pagerank值很小所以需要*20000
+    nodesize = [x['pagerank']*20000 for v,x in graph.nodes(data=True)]
+    #设置网络图中的边长度
+    edgesize = [np.sqrt(e[2]['weight']) for  e in  graph.edges (data=True)]
+    #绘制节点
+    nx.draw_networkx_nodes(graph, positions, node_size=nodesize,alpha=0.4)
+    #绘制边
+    nx.draw_networkx_edges(graph, positions, edge_size = edgesize,alpha=0.2)
+    #绘制节点的label
+    nx.draw_networkx_labels(graph, positions, font_size=10)
+    #输出网络图
+    plt.show()
+
+#将寄件人核收件人的姓名进行规范化
+emails.MetadataFrom = emails.MetadataFrom.apply(unify_name)
+emails.MetadataTo = emails.MetadataTo.apply(unify_name)
+
+#设置边的权重等于发邮件的次数
+edges_weights_temp = defaultdict(list)
+for row in zip(emails.MetadataFrom, emails.MetadataTo, emails.RawText):
+    temp = (row[0],row[1])
+    if temp not in edges_weights_temp:
+        edges_weights_temp[temp] = 1
+    else:
+        edges_weights_temp[temp] = edges_weights_temp[temp] + 1
+#转换格式(from, to), weight => from, to, weight
+edges_weights = [(key[0],key[1],val) for key, val in edges_weights_temp.items()]
+
+#创建一个有向图
+graph = nx.DiGraph()
+#设置有向图的路径及权重
+graph.add_weighted_edges_from(edges_weights)
+#计算每个节点（人）的PR值，并作为节点的pagerank属性
+pagerank = nx.pagerank(graph)
+#获取每个节点的pagerank值
+pagerank_list = {node: rank for node, rank in pagerank.items()}
+#将pagerank值作为节点的属性
+nx.set_node_attributes(graph, name='pagerank',values=pagerank_list)
+#画网路图
+show_graph(graph)
+
+#将完整的图谱进行精简
+#设置PR值的阈值，筛选大于阈值的重要核心节点
+pagerank_threshold = 0.005
+#复制一份计算好的网络图
+small_graph = graph.copy()
+
+#剪掉PR值小于pagerank_threshold的节点
+for n, p_rank in graph.nodes(data=True):
+    if p_rank['pagerank'] < pagerank_threshold:
+        small_graph.remove_node(n)
+
+#画网络图
+show_graph(small_graph)
+```
+
+输出结果
+
+![](data/xilali_email_relaction.png)
+
+![](data/xilali_email_pr.png)
+
+
+
+**函数及参数**:
+
+1.networkx可视化布局：
+
+​	spring_layout：呈中心放射状
+
+​	circular_layout:在一个圆环上均匀分布
+
+​	random_layout:随机分布节点
+
+​	shell_layout:节点都在同心圆上
+
+2.add_weighted_edges_from:添加边权重 ,参数为u、v、w的三元数组
