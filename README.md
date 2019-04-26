@@ -4,7 +4,7 @@
 
 # **数据分析**
 
-## 数据分析知识体系搭建：极客系列
+## **数据分析知识体系搭建：极客系列**
 
 [数据分析Python基础、基本概念、用户画像](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/数据分析-geekTimeNote.md)
 
@@ -30,15 +30,23 @@
 
 [数据可视化-词云](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/数据可视化-词云.md)
 
+[数据挖掘-微博自动化运营](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/微博自动化运营.md)
+
+[数据挖掘-信用卡违约&诈骗分析](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/数据挖掘-信用卡违约率.md)
+
+[数据挖掘-基于时间序列分析算法](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/数据挖掘-基于时间序列分析算法.md)
+
+
+
 # **算法进阶**
 
-##ACM
+##**ACM**
 
 [ACM OnlineJudge](http://acm.zju.edu.cn/onlinejudge/showProblem.do?problemId=1)
 
 #网络
 
-##HTTP
+##**HTTP**
 
 [图解HTTP read mark](https://github.com/onlyAngelia/Read-Mark/blob/master/HTTP/HTTP图解mark.md)
 
