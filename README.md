@@ -36,7 +36,7 @@
 
 [数据挖掘-基于时间序列分析算法](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/数据挖掘-基于时间序列分析算法.md)
 
-
+[深度学习](https://github.com/onlyAngelia/Read-Mark/blob/master/数据分析/geekTime/深度学习.md)
 
 # **算法进阶**
 
