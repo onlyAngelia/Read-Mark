@@ -171,14 +171,11 @@ False
 >>> s_set = {x for x in 'abracadabra' if x not in 'abc'}
 >>> s_set
 {'d', 'r'}
->>> a_set.add(x)
-Traceback (most recent call last):
-  File "<pyshell#99>", line 1, in <module>
-    a_set.add(x)
-NameError: name 'x' is not defined
 >>> a_set.add('x')
+#该方式可以添加列表、字典等
 >>> a_set.update('s')
 >>> a_set.remove('s')
+#若要移除的元素不包含在集合中，不会报错
 >>> a_set.discard('s')
 >>> a_set.pop
 <built-in method pop of set object at 0x10d906668>
@@ -490,7 +487,7 @@ int64
 
 ###**结构数组**
 
-在NumPy中用dtype定义的结构类型，然后在定义数组的时候，用array中指定了结构数组的类型dtype = persontype，这样就可以自由使用自定义的persontype。当然NumPy中海油一些自带的数学运算，比如计算平均值使用np.mean
+在NumPy中用dtype定义的结构类型，然后在定义数组的时候，用array中指定了结构数组的类型dtype = persontype，这样就可以自由使用自定义的persontype。当然NumPy中还有一些自带的数学运算，比如计算平均值使用np.mean
 
 ```python
 >>> persontype = np.dtype({'names':['name','age','chinese','math','english'],'formats':['S32','i','i','i','f']})
@@ -570,7 +567,7 @@ linspace是linear space的缩写，代表线性等分向量的含义。linspace(
 [3 6 9]
 ```
 
-amin()用于计算数组中的元素沿指定轴的最小值。对于一个二维数组a，amin(a)指的是数组中全部元素的最小值。amin(a,0)是沿着axis = 0轴的最小值，axis=0 轴是把元素看成了[1，4，7]，[2，5，8]，[3，6，9]三个元素，所以最小值是[1，2，3]，axis=1轴是把元素看成了[1，2，3]，[4，5，6][7，8，9]三个元素，所以最小值为[1，4，7]。同理amax()s是计算数组中元素沿着指定轴的最大值。
+amin()用于计算数组中的元素沿指定轴的最小值。对于一个二维数组a，amin(a)指的是数组中全部元素的最小值。amin(a,0)是沿着axis = 0轴的最小值，axis=0 轴是把元素看成了[1，4，7]，[2，5，8]，[3，6，9]三个元素，所以最小值是[1，2，3]，axis=1轴是把元素看成了[1，2，3]，[4，5，6]，[7，8，9]三个元素，所以最小值为[1，4，7]。同理amax()是计算数组中元素沿着指定轴的最大值。
 
 ###**统计最大值与最小值之差ptp()**
 
@@ -718,9 +715,9 @@ sort(a, axis = -1,kind ='quicksort',order=None),默认情况下使用的是快�
 >>> 
 ```
 
-# **Python科学计算：Panda**s
+# **Python科学计算：Pandas**
 
-Pandas是基于NumPy构建的含有更高级别数据结构和分析能力的工具包。Series和DataFrame是Pandas的两个狠心数据结构。分别代表一维的序列和二维的表结构，并且DataFrame与json契合度很高。基于这两种数据结构，Pandas可以对数据进行导入、清洗、处理、统计和输出。
+Pandas是基于NumPy构建的含有更高级别数据结构和分析能力的工具包。Series和DataFrame是Pandas的两个数据结构。分别代表一维的序列和二维的表结构，并且DataFrame与json契合度很高。基于这两种数据结构，Pandas可以对数据进行导入、清洗、处理、统计和输出。
 
 ##**数据结构Series和DataFrame**
 
@@ -766,7 +763,7 @@ dtype: int64
 
 
 
-**DataFrame**类似数据结构类似数据库表。它包括了航索引和列索引，可以将DataFrame看成是由相同索引的Series组成的字典类似。
+**DataFrame**类似数据结构类似数据库表。它包括了行索引和列索引，可以将DataFrame看成是由相同索引的Series组成的字典类似。
 
 ```python
 >>> data = {'Chinese':[66,95,93,90,80],'English':[65,85,92,88,90],'Math':[30,98,96,77,90]}
@@ -1034,14 +1031,6 @@ outer外连接相当于求两个DataFrame的并集。
 ```python
 >>> data={'Chinese':[66,95,95,90,80,80],'English':[65,85,92,88,90,90],'Math':[None,98,96,77,90,90]}
 >>> scoreframe = DataFrame(data,index=['张飞','关羽','赵云','黄忠','典韦','典韦'],columns=['Chinese','English','Math'])
->>> #删除重复数据
->>> scoreframe.drop_duplicates()
-    Chinese English Math
-张飞 66 65 NaN
-关羽 95 85 98.0
-赵云 95 92 96.0
-黄忠 90 88 77.0
-典韦 80 90 90.0
 >>> #第一步：删除重复数据
 >>> scoreframe.drop_duplicates()
     Chinese English Math
@@ -1091,7 +1080,7 @@ return scoreframe
 
 ##**商业智能BI、数据仓库DW、数据挖掘DM**
 
-利用数据预测购买行为数据商业智能，而数据存储在数据仓库中，通过对购买行为分析、总结规律属于数据挖掘。
+利用数据预测购买行为属于商业智能，而数据存储在数据仓库中，通过对购买行为分析、总结规律属于数据挖掘。
 
 商业智能：Business Inteligence，BI。这是一个宏大的概念，商业智能基于数据仓库，经过数据挖掘，得到商业价值。 数据是金矿，挖掘是炼金术，商业报告是黄金。
 
@@ -1234,3 +1223,4 @@ return scoreframe
 行为标签：点赞频率、是否点赞狂、评论朋友圈频率、评论内容质量、聊天频率
 
 内容分析：对成为好友的目的做分析，若仅仅是为了保留联系方式方便聊天，朋友圈屏蔽对其开放；对微信好友关系分析，注重对其朋友圈内容的评论内容是否恰当；对朋友圈 内容进行分类，方便对微信好友做性格和爱好以及关注内容做分析(比如：某某某经常发一些游玩视频，可以在自己想出去游玩的时候向其咨询；某某某对吃比较有研究，某某某热爱国学，某某某爱在朋友圈发一些交流会相关内容，当自己有这方面需求时可以咨询对应人员)
+
