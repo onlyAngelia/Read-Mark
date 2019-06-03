@@ -26,13 +26,13 @@ K值选择较小，会产生过拟合，K值选择较大，会产生欠拟合。
 
 ​        	计算公式：
 
-​				$d =\sqrt[]{ (x_1-x_2)^2 + (y_1-y_2)^2}​$
+​				$d =\sqrt[]{ (x_1-x_2)^2 + (y_1-y_2)^2}$
 
 2.曼哈顿距离
 
 ​		计算公式：
 
-​				$d= |x_1-x_2| + [y_1-y_2]​$
+​				$d= |x_1-x_2| + [y_1-y_2]$
 
 3.闵可夫斯基距离
 
@@ -175,3 +175,19 @@ CART决策树准确率:0.8400
 ​			brute： 暴力搜索，线性扫描
 
 4.leaf_size:叶子数
+
+
+
+# 聚类类型
+
+PM 基于划分的算法（partitioning methods）： K-MEANS算法、K-MEDOIDS算法、CLARANS算法
+
+HM 基于层次的算法(hierarchical methods)：最短距离法、BIRCH算法、CURE算法、CHAMELEON算法
+
+DM 基于密度的方法(density-based methods)：DBSCAN算法、OPTICS算法、DENCLUE算法等
+
+GM 基于网格的方法(grid-based methods): STING算法、CLIQUE算法 WAVE_CLUSTER算法
+
+MM 基于模型的方法(model-based methods): 基于统计的方案(COBWEB、CLASSIT等)和基于神经网络(SOM等)的方案。
+
+EM 基于聚类的方法(Expectation Maximization)
