@@ -102,7 +102,9 @@ FIXED适用场景：客户订单频率、阵列分析、够买频次分析、新
 
 # 5.Tableau操作执行顺序
 
-![](images/Tableau操作执行顺序.png)
+![Tableau操作顺序](images/Tableau操作执行顺序.png)
+
+操作顺序更改：提高低优先级的操作顺序（将字段添加到上下文）、降低高优先级的操作顺序
 
 
 
@@ -116,5 +118,12 @@ $形状功能应用\begin{cases}形状代替具体的维度字段\\ 形状散点
 
 #8.操作功能应用
 
+操作可以在菜单栏中的"工作表"和"仪表板"中勾选设置
+
 $操作类型\begin{cases} 筛选器\\ 突出显示 \\转到URL\end{cases}$
 
+$运行操作3种方式\begin{cases}悬停\\ 选择\\ 菜单\end{cases}$
+
+$撤销操作后的3种结果\begin{cases} 保留筛选器\\ 显示所有值 \\ 排除所有值\end{cases}$
+
+$操作应用方式\begin{cases} \end{cases}$
